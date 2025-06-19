@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Send, X, ChevronDown } from 'lucide-react';
+import emailjs from 'emailjs-com';
 import localStorageService from '../services/localStorageService';
 
 const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) => {
@@ -15,6 +16,11 @@ const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) =>
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const formRef = useRef();
+
+  // EmailJS configuration - you'll need to add these to your environment variables
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_lzv0n76';
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_hywc48o';
+  const EMAILJS_USER_ID = process.env.REACT_APP_EMAILJS_USER_ID || '92m3Tvs-ztcNiRG6X';
 
   const courses = [
     'Web Development',
@@ -52,8 +58,25 @@ const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) =>
 
       localStorageService.addFormData(submissionData);
       
-      // Simulate email sending (you can integrate EmailJS here later)
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Send email using EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone,
+        age: formData.age,
+        country: formData.country,
+        course: formData.course,
+        message: formData.message,
+        is_demo: isDemo ? 'Yes' : 'No',
+        to_name: 'Fiesta EdTech Team'
+      };
+
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_USER_ID
+      );
       
       setSubmitStatus('success');
       setFormData({

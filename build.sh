@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-echo "Installing dependencies..."
-npm install
+# Set CI to false to prevent treating warnings as errors
+export CI=false
 
-echo "Setting permissions..."
-chmod +x node_modules/.bin/react-scripts
+# Ensure react-scripts has proper permissions
+chmod +x node_modules/.bin/react-scripts 2>/dev/null || true
 
-echo "Building the application..."
-CI=false npm run build
+# Run the build
+npx react-scripts build
 
 echo "Build completed successfully!" 

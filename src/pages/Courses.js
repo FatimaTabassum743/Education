@@ -17,7 +17,9 @@ import {
   Server
 } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
+import WhatsAppButton from '../components/WhatsAppButton';
 import { Link } from 'react-router-dom';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const Courses = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -250,6 +252,19 @@ const Courses = () => {
     setIsFormOpen(true);
   };
 
+  const handleWhatsAppInquiry = (course) => {
+    const message = `Hi! I'm interested in the ${course.title} course. Can you provide more details about:
+- Course curriculum and duration
+- Schedule and timing
+- Pricing and payment options
+- Demo class availability
+
+Thank you!`;
+    
+    const whatsappUrl = `https://wa.me/8142200317?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <div className="min-h-screen pt-16">
       {/* Hero Section */}
@@ -356,13 +371,23 @@ const Courses = () => {
                     <div className="text-xs text-gray-600">{course.instructorExp}</div>
                   </div>
 
-                  <button
-                    onClick={() => handleBookDemo(course)}
-                    className="w-full btn-primary flex items-center justify-center"
-                  >
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Book Free Demo Class
-                  </button>
+                  <div className="space-y-3">
+                    <button
+                      onClick={() => handleBookDemo(course)}
+                      className="w-full btn-primary flex items-center justify-center"
+                    >
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Book Free Demo Class
+                    </button>
+                    
+                    <button
+                      onClick={() => handleWhatsAppInquiry(course)}
+                      className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center"
+                    >
+                      <FaWhatsapp className="mr-2 h-4 w-4" />
+                      Ask on WhatsApp
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

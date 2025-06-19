@@ -2,8 +2,11 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "installCommand": "npm install",
+  "installCommand": "npm ci",
   "framework": "create-react-app",
+  "env": {
+    "CI": "false"
+  },
   "routes": [
     {
       "src": "/static/(.*)",
