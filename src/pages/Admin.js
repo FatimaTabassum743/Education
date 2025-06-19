@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Download, 
-  Filter, 
   Trash2, 
   Eye,
   CheckCircle,
@@ -27,7 +26,7 @@ const Admin = () => {
   const [sortOrder, setSortOrder] = useState('desc');
   console.log('formData:', formData, 'filteredData:', filteredData);
 
-  const ADMIN_PASSWORD = 'fatima123';
+  const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD || 'fatima123';
 
   const filterAndSortData = useCallback(() => {
     // Ensure formData is always an array

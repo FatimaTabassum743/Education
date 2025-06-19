@@ -106,6 +106,5 @@ class AirtableService {
   }
 }
 
-const airtableServiceInstance = new AirtableService();
-
-export default airtableServiceInstance; 
+const airtableService = new AirtableService();
+export default airtableService; 

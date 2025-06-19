@@ -111,6 +111,5 @@ class SheetsService {
   }
 }
 
-const sheetsServiceInstance = new SheetsService();
-
-export default sheetsServiceInstance; 
+const sheetsService = new SheetsService();
+export default sheetsService; 

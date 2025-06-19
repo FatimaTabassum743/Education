@@ -3,7 +3,7 @@
 
 class LocalStorageService {
   constructor() {
-    this.storageKey = 'fiesta_form_submissions';
+    this.storageKey = process.env.REACT_APP_LOCALSTORAGE_KEY || 'fiesta_form_submissions';
   }
 
   // Add new form submission to local storage
@@ -148,4 +148,5 @@ class LocalStorageService {
   }
 }
 
-export default new LocalStorageService(); 
+const localStorageService = new LocalStorageService();
+export default localStorageService; 
