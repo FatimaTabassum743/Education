@@ -32,7 +32,7 @@ const Courses = () => {
     {
       id: 1,
       title: "Web Development",
-      subtitle: "Full Stack Development",
+      subtitle: "Web Development",
       description: "Learn to build modern websites and web applications from scratch. Perfect for beginners aged 12-21.",
       price: "₹2,999",
       originalPrice: "₹4,999",
@@ -43,10 +43,8 @@ const Courses = () => {
       reviews: 89,
       icon: <Code className="w-8 h-8" />,
       features: [
-        "HTML, CSS & JavaScript Fundamentals",
-        "React.js & Modern Frontend",
-        "Node.js & Backend Development",
-        "Database Integration (MongoDB)",
+        "HTML, CSS & JavaScript,Github Fundamentals",
+      
         "Deployment & Hosting",
         "Live Projects & Portfolio Building",
         "24/7 Doubt Support",
@@ -54,7 +52,7 @@ const Courses = () => {
       ],
       schedule: "Mon, Wed, Fri - 6:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Rahul Sharma",
+      instructor: "Fatima Tabassum",
       instructorExp: "5+ years in Web Development"
     },
     {
@@ -82,7 +80,7 @@ const Courses = () => {
       ],
       schedule: "Tue, Thu, Sat - 7:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Priya Verma",
+      instructor: "Fatima Tabassum",
       instructorExp: "6+ years in MERN Stack"
     },
     {
@@ -92,7 +90,7 @@ const Courses = () => {
       description: "Master artificial intelligence and machine learning. Build AI models and understand the future of technology.",
       price: "₹4,999",
       originalPrice: "₹1,999",
-      duration: "12 weeks",
+      duration: "8 weeks",
       level: "Beginner",
       students: "120+",
       rating: 4.9,
@@ -110,7 +108,7 @@ const Courses = () => {
       ],
       schedule: "Tue, Thu, Sat - 7:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Dr. Priya Patel",
+      instructor: "Priya Patel",
       instructorExp: "8+ years in AI/ML"
     },
     {
@@ -138,7 +136,7 @@ const Courses = () => {
       ],
       schedule: "Mon, Wed, Fri - 5:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Aisha Khan",
+      instructor: "Shaista Sultana",
       instructorExp: "6+ years in Digital Marketing"
     },
     {
@@ -166,7 +164,7 @@ const Courses = () => {
       ],
       schedule: "Tue, Thu, Sat - 4:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Vikram Singh",
+      instructor: "Fatima Tabassum",
       instructorExp: "4+ years in Python Development"
     },
     {
@@ -174,7 +172,7 @@ const Courses = () => {
       title: "Linux Administration",
       subtitle: "Server Management",
       description: "Master Linux administration and server management. Learn command line, system administration, and DevOps basics.",
-      price: "₹3,999",
+      price: "₹999",
       originalPrice: "₹999",
       duration: "10 weeks",
       level: "Intermediate",
@@ -194,7 +192,7 @@ const Courses = () => {
       ],
       schedule: "Wed, Fri, Sun - 8:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Arjun Reddy",
+      instructor: "Shaista Sultana",
       instructorExp: "7+ years in Linux & DevOps"
     },
     {
@@ -222,7 +220,7 @@ const Courses = () => {
       ],
       schedule: "Wed, Fri, Sun - 8:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Arjun Reddy",
+      instructor: "Shaista Sultana",
       instructorExp: "7+ years in Cloud Computing"
     }
   ];
