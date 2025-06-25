@@ -8,6 +8,9 @@ import Courses from './pages/Courses';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Admin from './pages/Admin';
+import Notes from './pages/Notes';
+import Tasks from './pages/Tasks';
+import Assessments from './pages/Assessments';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/notes" element={<Notes />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/assessments" element={<Assessments />} />
           </Routes>
         </main>
         <Footer />

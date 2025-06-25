@@ -16,9 +16,12 @@ import {
   Video,
   MessageCircle,
   Database,
-  Server
+  Server,
+  Target,
+  FileText
 } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
+import image from './image.png';
 
 const Home = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -54,12 +57,12 @@ const Home = () => {
       duration: "8 weeks",
       level: "Beginner",
       icon: <Code className="w-8 h-8" />,
-      features: ["HTML, CSS, JavaScript", "React.js", "Responsive Design", "Live Projects"]
+      features: ["HTML, CSS, JavaScript", "Github", "Responsive Design", "Live Projects"]
     },
     {
       title: "MERN Stack",
       description: "Complete full-stack development with MERN",
-      price: "₹3,999",
+      price: "₹4,999",
       duration: "12 weeks",
       level: "Intermediate",
       icon: <Database className="w-8 h-8" />,
@@ -68,8 +71,8 @@ const Home = () => {
     {
       title: "AI & Machine Learning",
       description: "Learn the future of technology with AI/ML",
-      price: "₹4,999",
-      duration: "12 weeks",
+      price: "₹1,999",
+      duration: "8 weeks",
       level: "Intermediate",
       icon: <TrendingUp className="w-8 h-8" />,
       features: ["Python Programming", "Data Science", "Machine Learning", "AI Projects"]
@@ -77,7 +80,7 @@ const Home = () => {
     {
       title: "Digital Marketing",
       description: "Master social media and online marketing",
-      price: "₹3,499",
+      price: "₹2,499",
       duration: "10 weeks",
       level: "Beginner",
       icon: <Smartphone className="w-8 h-8" />,
@@ -86,9 +89,9 @@ const Home = () => {
     {
       title: "Linux Administration",
       description: "Master Linux and server management",
-      price: "₹3,999",
-      duration: "10 weeks",
-      level: "Intermediate",
+      price: "₹999",
+      duration: "4 weeks",
+      level: "Beginner",
       icon: <Server className="w-8 h-8" />,
       features: ["Linux Commands", "System Admin", "Shell Scripting", "DevOps"]
     }
@@ -186,43 +189,11 @@ const Home = () => {
             </div>
 
             <div className="relative">
-              <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
-                <div className="space-y-6">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
-                      <BookOpen className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Live Class in Progress</h3>
-                      <p className="text-sm text-gray-600">Web Development - React.js</p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Students Online</span>
-                      <span className="text-sm font-medium text-gray-900">6/8</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Duration</span>
-                      <span className="text-sm font-medium text-gray-900">45 min</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Next Class</span>
-                      <span className="text-sm font-medium text-gray-900">Tomorrow 4 PM IST</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <div className="flex -space-x-2">
-                      {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="w-8 h-8 bg-gradient-to-br from-accent-400 to-primary-400 rounded-full border-2 border-white"></div>
-                      ))}
-                    </div>
-                    <span className="text-sm text-gray-600">+2 more students</span>
-                  </div>
-                </div>
-              </div>
+              <img 
+                src={image} 
+                alt="Learning Platform" 
+                className="w-full h-[80vh] rounded-2xl shadow-2xl"
+              />
             </div>
           </div>
         </div>
@@ -327,6 +298,79 @@ const Home = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Features Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Complete Your Learning Journey
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Access study materials, practice with hands-on tasks, and test your knowledge with assessments.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Notes Feature */}
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 text-center hover:shadow-lg transition-all duration-300 border border-blue-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <BookOpen className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Study Notes</h3>
+              <p className="text-gray-600 mb-6">
+                Access comprehensive study materials and notes for all courses. 
+                Download and study at your own pace with detailed explanations.
+              </p>
+              <Link
+                to="/notes"
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              >
+                <BookOpen className="w-4 h-4 mr-2" />
+                Browse Notes
+              </Link>
+            </div>
+
+            {/* Tasks Feature */}
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8 text-center hover:shadow-lg transition-all duration-300 border border-green-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <Target className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Practice Tasks</h3>
+              <p className="text-gray-600 mb-6">
+                Complete hands-on tasks and assignments to reinforce your learning. 
+                Track your progress and earn points as you master new skills.
+              </p>
+              <Link
+                to="/tasks"
+                className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200"
+              >
+                <Target className="w-4 h-4 mr-2" />
+                View Tasks
+              </Link>
+            </div>
+
+            {/* Assessments Feature */}
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-8 text-center hover:shadow-lg transition-all duration-300 border border-purple-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <FileText className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Assessments</h3>
+              <p className="text-gray-600 mb-6">
+                Test your knowledge with interactive quizzes and assessments. 
+                Get instant feedback and track your learning progress over time.
+              </p>
+              <Link
+                to="/assessments"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors duration-200"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Take Tests
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -14,7 +14,10 @@ import {
   Video,
   MessageCircle,
   CheckCircle,
-  Server
+  Server,
+  BookOpen,
+  Target,
+  FileText
 } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
 import WhatsAppButton from '../components/WhatsAppButton';
@@ -59,7 +62,7 @@ const Courses = () => {
       title: "MERN Stack",
       subtitle: "Complete Full Stack",
       description: "Master the complete MERN stack (MongoDB, Express.js, React.js, Node.js) to build full-stack applications.",
-      price: "₹3,999",
+      price: "₹4,999",
       originalPrice: "₹6,999",
       duration: "12 weeks",
       level: "Intermediate",
@@ -88,9 +91,9 @@ const Courses = () => {
       subtitle: "Future Technology",
       description: "Master artificial intelligence and machine learning. Build AI models and understand the future of technology.",
       price: "₹4,999",
-      originalPrice: "₹7,999",
+      originalPrice: "₹1,999",
       duration: "12 weeks",
-      level: "Intermediate",
+      level: "Beginner",
       students: "120+",
       rating: 4.9,
       reviews: 67,
@@ -116,7 +119,7 @@ const Courses = () => {
       subtitle: "Social Media & SEO",
       description: "Learn digital marketing strategies, social media management, and SEO to build your online presence.",
       price: "₹3,499",
-      originalPrice: "₹5,999",
+      originalPrice: "₹2,499",
       duration: "10 weeks",
       level: "Beginner",
       students: "200+",
@@ -144,7 +147,7 @@ const Courses = () => {
       subtitle: "Coding for Beginners",
       description: "Start your coding journey with Python. Learn programming fundamentals and build real-world projects.",
       price: "₹2,499",
-      originalPrice: "₹3,999",
+      originalPrice: "₹1,499",
       duration: "6 weeks",
       level: "Beginner",
       students: "300+",
@@ -172,7 +175,7 @@ const Courses = () => {
       subtitle: "Server Management",
       description: "Master Linux administration and server management. Learn command line, system administration, and DevOps basics.",
       price: "₹3,999",
-      originalPrice: "₹5,999",
+      originalPrice: "₹999",
       duration: "10 weeks",
       level: "Intermediate",
       students: "100+",
@@ -200,7 +203,7 @@ const Courses = () => {
       subtitle: "Cloud Infrastructure",
       description: "Learn Amazon Web Services and cloud computing. Deploy applications and manage cloud infrastructure.",
       price: "₹5,999",
-      originalPrice: "₹8,999",
+      originalPrice: "₹3,999",
       duration: "10 weeks",
       level: "Intermediate",
       students: "80+",
@@ -387,10 +390,96 @@ Thank you!`;
                       <FaWhatsapp className="mr-2 h-4 w-4" />
                       Ask on WhatsApp
                     </button>
+
+                    <button
+                      onClick={() => window.open('/notes', '_blank')}
+                      disabled={course.title !== "Web Development"}
+                      className={`w-full font-semibold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center ${
+                        course.title === "Web Development"
+                          ? "bg-blue-600 hover:bg-blue-700 text-white"
+                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      }`}
+                    >
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      {course.title === "Web Development" ? "View Notes" : "Notes Coming Soon"}
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Features Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Complete Learning Experience
+            </h2>
+            <p className="text-xl text-gray-600">
+              Access study materials, complete tasks, and test your knowledge
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Notes Feature */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <BookOpen className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Study Notes</h3>
+              <p className="text-gray-600 mb-6">
+                Access comprehensive study materials and notes for all courses. 
+                Download and study at your own pace with detailed explanations and examples.
+              </p>
+              <Link
+                to="/notes"
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              >
+                <BookOpen className="w-4 h-4 mr-2" />
+                Browse Notes
+              </Link>
+            </div>
+
+            {/* Tasks Feature */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <Target className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Practice Tasks</h3>
+              <p className="text-gray-600 mb-6">
+                Complete hands-on tasks and assignments to reinforce your learning. 
+                Track your progress and earn points as you master new skills.
+              </p>
+              <Link
+                to="/tasks"
+                className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200"
+              >
+                <Target className="w-4 h-4 mr-2" />
+                View Tasks
+              </Link>
+            </div>
+
+            {/* Assessments Feature */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <FileText className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Assessments</h3>
+              <p className="text-gray-600 mb-6">
+                Test your knowledge with interactive quizzes and assessments. 
+                Get instant feedback and track your learning progress over time.
+              </p>
+              <Link
+                to="/assessments"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors duration-200"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Take Tests
+              </Link>
+            </div>
           </div>
         </div>
       </section>
