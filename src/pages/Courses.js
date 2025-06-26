@@ -52,8 +52,8 @@ const Courses = () => {
       ],
       schedule: "Mon, Wed, Fri - 6:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Fatima Tabassum",
-      instructorExp: "5+ years in Web Development"
+      // instructor: "Fatima Tabassum",
+      // instructorExp: "5+ years in Web Development"
     },
     {
       id: 2,
@@ -80,16 +80,16 @@ const Courses = () => {
       ],
       schedule: "Tue, Thu, Sat - 7:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Fatima Tabassum",
-      instructorExp: "6+ years in MERN Stack"
+      // instructor: "Fatima Tabassum",
+      // instructorExp: "6+ years in MERN Stack"
     },
     {
       id: 3,
       title: "AI & Machine Learning",
       subtitle: "Future Technology",
       description: "Master artificial intelligence and machine learning. Build AI models and understand the future of technology.",
-      price: "₹4,999",
-      originalPrice: "₹1,999",
+      price: "₹1,999",
+      originalPrice: "₹2,999",
       duration: "8 weeks",
       level: "Beginner",
       students: "120+",
@@ -108,16 +108,16 @@ const Courses = () => {
       ],
       schedule: "Tue, Thu, Sat - 7:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Priya Patel",
-      instructorExp: "8+ years in AI/ML"
+      // instructor: "Priya Patel",
+      // instructorExp: "8+ years in AI/ML"
     },
     {
       id: 4,
       title: "Digital Marketing",
       subtitle: "Social Media & SEO",
       description: "Learn digital marketing strategies, social media management, and SEO to build your online presence.",
-      price: "₹3,499",
-      originalPrice: "₹2,499",
+      price: "₹2,499",
+      originalPrice: "₹3,499",
       duration: "10 weeks",
       level: "Beginner",
       students: "200+",
@@ -136,16 +136,16 @@ const Courses = () => {
       ],
       schedule: "Mon, Wed, Fri - 5:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Shaista Sultana",
-      instructorExp: "6+ years in Digital Marketing"
+      // instructor: "Shaista Sultana",
+      // instructorExp: "6+ years in Digital Marketing"
     },
     {
       id: 5,
       title: "Python Programming",
       subtitle: "Coding for Beginners",
       description: "Start your coding journey with Python. Learn programming fundamentals and build real-world projects.",
-      price: "₹2,499",
-      originalPrice: "₹1,499",
+      price: "₹1,499",
+      originalPrice: "₹2,499",
       duration: "6 weeks",
       level: "Beginner",
       students: "300+",
@@ -164,8 +164,8 @@ const Courses = () => {
       ],
       schedule: "Tue, Thu, Sat - 4:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Fatima Tabassum",
-      instructorExp: "4+ years in Python Development"
+      // instructor: "Fatima Tabassum",
+      // instructorExp: "4+ years in Python Development"
     },
     {
       id: 6,
@@ -173,7 +173,7 @@ const Courses = () => {
       subtitle: "Server Management",
       description: "Master Linux administration and server management. Learn command line, system administration, and DevOps basics.",
       price: "₹999",
-      originalPrice: "₹999",
+      originalPrice: "₹1,999",
       duration: "10 weeks",
       level: "Intermediate",
       students: "100+",
@@ -192,16 +192,16 @@ const Courses = () => {
       ],
       schedule: "Wed, Fri, Sun - 8:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Shaista Sultana",
-      instructorExp: "7+ years in Linux & DevOps"
+      // instructor: "Shaista Sultana",
+      // instructorExp: "7+ years in Linux & DevOps"
     },
     {
       id: 7,
       title: "AWS Cloud Computing",
       subtitle: "Cloud Infrastructure",
       description: "Learn Amazon Web Services and cloud computing. Deploy applications and manage cloud infrastructure.",
-      price: "₹5,999",
-      originalPrice: "₹3,999",
+      price: "₹3,999",
+      originalPrice: "₹4,999",
       duration: "10 weeks",
       level: "Intermediate",
       students: "80+",
@@ -220,8 +220,8 @@ const Courses = () => {
       ],
       schedule: "Wed, Fri, Sun - 8:00 PM IST",
       nextBatch: "Starting Soon",
-      instructor: "Shaista Sultana",
-      instructorExp: "7+ years in Cloud Computing"
+      // instructor: "Shaista Sultana",
+      // instructorExp: "7+ years in Cloud Computing"
     }
   ];
 
@@ -367,10 +367,7 @@ Thank you!`;
                     ))}
                   </ul>
                   
-                  <div className="bg-gray-50 rounded-lg p-3 mb-4">
-                    <div className="text-sm font-medium text-gray-900 mb-1">Instructor: {course.instructor}</div>
-                    <div className="text-xs text-gray-600">{course.instructorExp}</div>
-                  </div>
+                
 
                   <div className="space-y-3">
                     <button

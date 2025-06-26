@@ -151,28 +151,28 @@ const Home = () => {
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
                   Join our global community of students aged 12-21. Learn from expert instructors in interactive live classes. 
-                  Web Development, AI/ML, Digital Marketing & more!
+                  MERN Stack, Aws, Python, Web Development, AI/ML, Digital Marketing & more!
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => setIsFormOpen(true)}
-                  className="btn-primary text-lg px-8 py-3 flex items-center justify-center"
+                  className="btn-primary text-lg px-5 py-2 flex items-center justify-center"
                 >
                   <Play className="mr-2 h-5 w-5" />
                   Start Free Demo Class
                 </button>
                 <Link
                   to="/courses"
-                  className="btn-outline text-lg px-8 py-3 flex items-center justify-center"
+                  className="btn-outline text-lg px-5 py-2 flex items-center justify-center"
                 >
                   View All Courses
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </div>
 
-              <div className="flex items-center space-x-6 text-sm text-gray-600">
+              {/* <div className="flex items-center space-x-6 text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="w-5 h-5 text-accent-600" />
                   <span>Free Demo Class</span>
@@ -185,7 +185,7 @@ const Home = () => {
                   <CheckCircle className="w-5 h-5 text-accent-600" />
                   <span>Age 12-21</span>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="relative">
