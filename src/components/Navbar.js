@@ -21,6 +21,7 @@ const Navbar = () => {
     { name: 'Notes', path: '/notes' },
     { name: 'Tasks', path: '/tasks' },
     { name: 'Assessments', path: '/assessments' },
+    { name: 'Assign Projects', path: '/assign-projects' }, // Added new section
     { name: 'About Us', path: '/about' },
     { name: 'Contact', path: '/contact' }
   ];
@@ -61,10 +62,7 @@ const Navbar = () => {
             ))}
             
             {/* International Badge */}
-            <div className="flex items-center space-x-1 bg-gradient-to-r from-accent-50 to-primary-50 px-3 py-1 rounded-full">
-              <Globe className="w-4 h-4 text-accent-600" />
-              <span className="text-xs font-medium text-accent-700">Global Students</span>
-            </div>
+          
           </div>
 
           {/* CTA Button */}

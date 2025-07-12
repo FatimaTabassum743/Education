@@ -11,6 +11,7 @@ import Admin from './pages/Admin';
 import Notes from './pages/Notes';
 import Tasks from './pages/Tasks';
 import Assessments from './pages/Assessments';
+import AssignProjects from './pages/AssignProjects';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/notes" element={<Notes />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/assessments" element={<Assessments />} />
+            <Route path="/assign-projects" element={<AssignProjects />} />
           </Routes>
         </main>
         <Footer />
