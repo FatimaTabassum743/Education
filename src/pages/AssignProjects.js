@@ -7,7 +7,8 @@ const AssignProjects = () => {
       <div className="max-w-xl w-full bg-white rounded-xl shadow-lg p-8 flex flex-col items-center">
         <h2 className="text-2xl font-semibold mb-4 text-primary-700">Web Development Project</h2>
         <p className="text-gray-700 mb-6 text-center">
-          Build a modern, responsive website using HTML, CSS, and JavaScript. Your project should include a homepage, about page, and contact form. Bonus: Deploy your site online!
+          Build a modern, responsive Portfolio website using HTML and CSS  Deploy your site online using github!
+          for reference visit the project link below
         </p>
         <a
           href="https://fatimatabassum743.github.io/Project/" // Replace with actual project link
