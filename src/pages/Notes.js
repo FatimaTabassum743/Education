@@ -22,7 +22,7 @@ const Notes = () => {
       description: "Complete guide to HTML basics, tags, and structure",
       content: "# HTML,CSS,Github Fundamentals\n\n## Introduction to HTML\nHTML is the standard markup language for creating web pages.",
       // author: "Fatima Tabassum",
-      date: "2024-01-15",
+      date: "2025-01-15",
       readTime: "15 min",
       downloads: 245,
       driveLink: "https://drive.google.com/drive/u/0/folders/1aZJ7reVMkbQLfsk5dvg0IMsIksIoxjmP"
@@ -34,7 +34,7 @@ const Notes = () => {
       description: "Complete guide to MongoDB, Express.js, React.js, and Node.js",
       content: "# MERN Stack Development\n\n## Introduction to MERN Stack\nThe MERN stack consists of MongoDB, Express.js, React.js, and Node.js.",
       // author: "Fatima Tabassum",
-      date: "2024-01-20",
+      date: "2025-01-20",
       readTime: "25 min",
       downloads: 189,
       driveLink: "https://docs.google.com/document1/d/1MERN_Stack_Notes"
@@ -46,7 +46,7 @@ const Notes = () => {
       description: "Introduction to artificial intelligence and machine learning concepts",
       content: "# AI & Machine Learning Basics\n\n## Introduction to AI\nArtificial Intelligence is the simulation of human intelligence in machines.",
       // author: "Fatima Tabassum",
-      date: "2024-01-25",
+      date: "2025-01-25",
       readTime: "30 min",
       downloads: 167,
       driveLink: "https://docs.google.com/document1/d/1AI_ML_Notes"
@@ -58,7 +58,7 @@ const Notes = () => {
       description: "Complete guide to digital marketing strategies and techniques",
       content: "# Digital Marketing Fundamentals\n\n## Introduction to Digital Marketing\nDigital marketing encompasses all marketing efforts that use electronic devices.",
       // author: "Aisha Khan",
-      date: "2024-01-30",
+      date: "2025-01-30",
       readTime: "20 min",
       downloads: 203,
       driveLink: "https://docs.google.com/document1/d/1Digital_Marketing_Notes"
@@ -70,7 +70,7 @@ const Notes = () => {
       description: "Introduction to Python syntax, data types, and control structures",
     
       // author: "Fatima Tabassum",
-      date: "2024-02-05",
+      date: "2025-02-05",
       readTime: "22 min",
       downloads: 156,
       driveLink: "https://docs.google.com/document1/d/1Dwbuv_FjNvDzBpuZwGnTq_S7OQso6B_R/edit"
@@ -82,7 +82,7 @@ const Notes = () => {
       description: "Complete guide to Linux system administration and commands",
       content: "# Linux Administration\n\n## Introduction to Linux\nLinux is a family of open-source Unix-like operating systems.",
       // author: "Shaista Sultana",
-      date: "2024-02-10",
+      date: "2025-02-10",
       readTime: "28 min",
       downloads: 134,
       driveLink: "https://docs.google.com/document1/d/1Linux_Admin_Notes"
@@ -94,7 +94,7 @@ const Notes = () => {
       description: "Introduction to Amazon Web Services and cloud computing",
       content: "# AWS Cloud Computing\n\n## Introduction to AWS\nAmazon Web Services (AWS) is a comprehensive cloud computing platform.",
       // author: "Shaista Sultana",
-      date: "2024-02-15",
+      date: "2025-02-15",
       readTime: "35 min",
       downloads: 98,
       driveLink: "https://docs.google.com/document1/d/1AWS_Cloud_Notes"

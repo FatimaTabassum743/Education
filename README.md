@@ -1,6 +1,6 @@
-# 🎓 GenZ Learn - Online Live Classes for Young Learners
+# 🎓 GenzLearner - Online Live Classes for Young Learners
 
-A modern, responsive ReactJS website for **GenZ Learn**, an EdTech platform specializing in interactive live classes for students aged 12-21 from around the world.
+A modern, responsive ReactJS website for **GenzLearner**, an EdTech platform specializing in interactive live classes for students aged 12-21 from around the world.
 
 ## 🌟 Features
 
@@ -52,8 +52,8 @@ A modern, responsive ReactJS website for **GenZ Learn**, an EdTech platform spec
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/genz-learn.git
-   cd genz-learn
+   git clone https://github.com/yourusername/genzlearner.git
+   cd genzlearner
    ```
 
 2. **Install dependencies**
@@ -72,7 +72,7 @@ A modern, responsive ReactJS website for **GenZ Learn**, an EdTech platform spec
 ## 📁 Project Structure
 
 ```
-genz-learn/
+genzlearner/
 ├── public/
 │   ├── index.html          # Main HTML file
 │   ├── manifest.json       # PWA manifest
@@ -261,7 +261,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support and questions:
-- **Email**: hello@genzlearn.com
+- **Email**: hello@genzlearner.com
 - **Phone**: +91 81422 00317
 - **WhatsApp**: [Chat with us](https://wa.me/918142200317)
 

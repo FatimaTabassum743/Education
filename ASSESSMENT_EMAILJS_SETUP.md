@@ -18,13 +18,13 @@ Use this template content for assessment results:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Assessment Results - GenZ Learn</title>
+    <title>Assessment Results - GenzLearner</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
     
     <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
         <h1 style="margin: 0; font-size: 28px;">Assessment Results</h1>
-        <p style="margin: 10px 0 0 0; opacity: 0.9;">GenZ Learn - Your Learning Journey</p>
+        <p style="margin: 10px 0 0 0; opacity: 0.9;">GenzLearner - Your Learning Journey</p>
     </div>
     
     <div style="background: white; padding: 30px; border: 1px solid #e1e5e9; border-top: none; border-radius: 0 0 10px 10px;">

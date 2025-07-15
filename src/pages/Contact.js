@@ -10,7 +10,7 @@ const Contact = () => {
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Email Us",
-      details: "hello@genzlearn.com",
+      details: "hello@genzlearner.com",
       description: "Get in touch for course inquiries and support"
     },
     {
@@ -68,7 +68,7 @@ const Contact = () => {
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Get in Touch with
-              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"> GenZ Learn</span>
+              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"> GenzLearner</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               Have questions about our live classes? Want to join our global community of young learners? 
@@ -140,7 +140,7 @@ const Contact = () => {
                     <Mail className="w-6 h-6 text-primary-600 mt-1" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">hello@genzlearn.com</p>
+                      <p className="text-gray-600">hello@genzlearner.com</p>
                       <p className="text-sm text-gray-500">We respond within 24 hours</p>
                     </div>
                   </div>
@@ -170,7 +170,7 @@ const Contact = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick WhatsApp Chat</h3>
                 <p className="text-gray-600 mb-4">Get instant answers to your questions via WhatsApp</p>
                 <a
-                  href="https://wa.me/918142200317?text=Hi! I'm interested in GenZ Learn courses. Can you provide more details?"
+                  href="https://wa.me/918142200317?text=Hi! I'm interested in GenzLearner courses. Can you provide more details?"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
@@ -258,7 +258,7 @@ const Contact = () => {
               Book Free Demo Class
             </button>
             <a
-              href="https://wa.me/918142200317?text=Hi! I'm interested in GenZ Learn courses. Can you provide more details?"
+              href="https://wa.me/918142200317?text=Hi! I'm interested in GenzLearner courses. Can you provide more details?"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"

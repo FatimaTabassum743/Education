@@ -31,7 +31,7 @@ const Courses = () => {
   const courses = [
     {
       id: 1,
-      title: "Web Development",
+      title: "Web Development With AI",
       subtitle: "Web Development",
       description: "Learn to build modern websites and web applications from scratch. Perfect for beginners aged 12-21.",
       price: "₹2,999",
@@ -43,7 +43,7 @@ const Courses = () => {
       reviews: 89,
       icon: <Code className="w-8 h-8" />,
       features: [
-        "HTML, CSS & JavaScript,Github Fundamentals",
+        "HTML, CSS & JavaScript,Github Fundamentals, How to use GenAI effectively in Web Development",
       
         "Deployment & Hosting",
         "Live Projects & Portfolio Building",
@@ -57,9 +57,9 @@ const Courses = () => {
     },
     {
       id: 2,
-      title: "MERN Stack",
+      title: "MERN Stack With AI",
       subtitle: "Complete Full Stack",
-      description: "Master the complete MERN stack (MongoDB, Express.js, React.js, Node.js) to build full-stack applications.",
+      description: "Master the complete MERN stack (MongoDB, Express.js, React.js, Node.js) to build full-stack applications using AI Tools,Become a Next generation Full Stack Developer",
       price: "₹4,999",
       originalPrice: "₹6,999",
       duration: "12 weeks",
@@ -88,8 +88,8 @@ const Courses = () => {
       title: "AI & Machine Learning",
       subtitle: "Future Technology",
       description: "Master artificial intelligence and machine learning. Build AI models and understand the future of technology.",
-      price: "₹1,999",
-      originalPrice: "₹2,999",
+      price: "₹2,499",
+      originalPrice: "₹3,499",
       duration: "8 weeks",
       level: "Beginner",
       students: "120+",

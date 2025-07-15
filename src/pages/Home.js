@@ -51,30 +51,30 @@ const Home = () => {
 
   const courses = [
     {
-      title: "Web Development",
-      description: "Build modern websites and web applications",
+      title: "Web Development With AI",
+      description: "Build modern websites and wapplications",
       price: "₹2,999",
       duration: "8 weeks",
       level: "Beginner",
-      icon: <Code className="w-8 h-8" />,
+      icon: <Code className="w-8 h-8" />, 
       features: ["HTML, CSS, JavaScript", "Github", "Responsive Design", "Live Projects"]
     },
     {
-      title: "MERN Stack",
+      title: "MERN Stack With AI",
       description: "Complete full-stack development with MERN",
       price: "₹4,999",
       duration: "12 weeks",
       level: "Intermediate",
-      icon: <Database className="w-8 h-8" />,
+      icon: <Database className="w-8 h-8" />, 
       features: ["MongoDB", "Express.js", "React.js", "Node.js"]
     },
     {
       title: "AI & Machine Learning",
       description: "Learn the future of technology with AI/ML",
-      price: "₹1,999",
+      price: "₹2,499",
       duration: "8 weeks",
       level: "Intermediate",
-      icon: <TrendingUp className="w-8 h-8" />,
+      icon: <TrendingUp className="w-8 h-8" />, 
       features: ["Python Programming", "Data Science", "Machine Learning", "AI Projects"]
     },
     {
@@ -83,7 +83,7 @@ const Home = () => {
       price: "₹2,499",
       duration: "10 weeks",
       level: "Beginner",
-      icon: <Smartphone className="w-8 h-8" />,
+      icon: <Smartphone className="w-8 h-8" />, 
       features: ["Social Media Marketing", "SEO", "Content Creation", "Analytics"]
     },
     {
@@ -92,8 +92,18 @@ const Home = () => {
       price: "₹999",
       duration: "4 weeks",
       level: "Beginner",
-      icon: <Server className="w-8 h-8" />,
+      icon: <Server className="w-8 h-8" />, 
       features: ["Linux Commands", "System Admin", "Shell Scripting", "DevOps"]
+    },
+    // Python Course Card
+    {
+      title: "Python Programming",
+      description: "Start coding with Python from scratch and build real-world projects.",
+      price: "₹1,999",
+      duration: "6 weeks",
+      level: "Beginner",
+      icon: <Code className="w-8 h-8" />, 
+      features: ["Python Basics", "Problem Solving", "Project Work", "Fun Challenges"]
     }
   ];
 
@@ -150,8 +160,7 @@ const Home = () => {
                   <span className="text-3xl md:text-5xl">Live Classes</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Join our global community of students aged 12-21. Learn from expert instructors in interactive live classes. 
-                  MERN Stack, Aws, Python, Web Development, AI/ML, Digital Marketing & more!
+                  Ignite your curiosity and unlock your potential! Dive into live, interactive,engaging classes designed just for young minds aged 12-21. Build real skills in MERN Stack Development, Web Development, AI/ML, Python, Digital Marketing, and more.
                 </p>
               </div>
 
@@ -192,7 +201,7 @@ const Home = () => {
               <img 
                 src={image} 
                 alt="Learning Platform" 
-                className="w-full h-[80vh] rounded-2xl shadow-2xl"
+                className="w-full h-[75vh] rounded-2xl shadow-2xl"
               />
             </div>
           </div>

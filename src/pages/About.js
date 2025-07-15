@@ -122,7 +122,7 @@ const About = () => {
                   <span className="text-3xl md:text-4xl">Through Live Learning</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  At GenZ Learn, we believe every young person deserves access to quality education. 
+                  At GenzLearner, we believe every young person deserves access to quality education. 
                   Our interactive live classes connect students aged 12-21 from around the world, 
                   creating a global community of learners.
                 </p>
@@ -230,7 +230,7 @@ const About = () => {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -259,7 +259,7 @@ const About = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials Section */}
       <section className="py-16 bg-white">
@@ -302,7 +302,7 @@ const About = () => {
             Join Our Global Learning Community
           </h2>
           <p className="text-xl text-primary-100 mb-8">
-            Start your learning journey with GenZ Learn. Book your free demo class today!
+            Start your learning journey with GenzLearner. Book your free demo class today!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button

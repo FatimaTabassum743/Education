@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'Live Classes', path: '/courses' },
+    { name: 'Courses', path: '/courses' },
     { name: 'Notes', path: '/notes' },
     { name: 'Tasks', path: '/tasks' },
     { name: 'Assessments', path: '/assessments' },
@@ -39,7 +39,7 @@ const Navbar = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-                GenZ Learn
+                GenzLearner
               </h1>
               <p className="text-xs text-gray-500 -mt-1">Live Classes • Global Community</p>
             </div>
