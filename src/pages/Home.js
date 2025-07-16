@@ -198,10 +198,10 @@ const Home = () => {
             </div>
 
             <div className="relative">
-              <img 
+             <img 
                 src={image} 
                 alt="Learning Platform" 
-                className="w-full h-[75vh] rounded-2xl shadow-2xl"
+                className="w-full h-[75vh] rounded-2xl shadow-2xl hidden sm:block"
               />
             </div>
           </div>
