@@ -14,6 +14,7 @@ import {
   X,
   Save
 } from 'lucide-react';
+import emailjs from 'emailjs-com';
 
 const Assessments = () => {
   const [selectedAssessment, setSelectedAssessment] = useState(null);
@@ -29,6 +30,11 @@ const Assessments = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pendingResults, setPendingResults] = useState(null);
+
+  // EmailJS configuration
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_lzv0n76';
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_hywc48o';
+  const EMAILJS_USER_ID = process.env.REACT_APP_EMAILJS_USER_ID || '92m3Tvs-ztcNiRG6X';
 
   const assessments = [
     {
@@ -355,7 +361,7 @@ const Assessments = () => {
     }
   };
 
-  const handleSubmitResults = () => {
+  const handleSubmitResults = async () => {
     // setPendingResults(results);
     setShowSubmissionModal(true);
     if (!studentInfo.name || !studentInfo.email) {
@@ -366,7 +372,7 @@ const Assessments = () => {
     setIsSubmitting(true);
 
     try {
-      // Prepare assessment data for localStorage
+      // Prepare assessment data
       const assessmentData = {
         id: Date.now(),
         studentName: studentInfo.name,
@@ -388,16 +394,58 @@ const Assessments = () => {
         }))
       };
 
-      // Get existing assessment submissions from localStorage
-      const existingSubmissions = JSON.parse(localStorage.getItem('assessmentSubmissions') || '[]');
-      
-      // Add new submission
-      existingSubmissions.push(assessmentData);
-      
-      // Save back to localStorage
-      localStorage.setItem('assessmentSubmissions', JSON.stringify(existingSubmissions));
+      // Send assessment results via email FIRST
+      const templateParams = {
+        from_name: studentInfo.name,
+        from_email: studentInfo.email,
+        phone: 'Not provided',
+        age: 'Not provided',
+        country: 'Not provided',
+        course: selectedAssessment.title,
+        message: `Assessment Results:
+        
+Assessment: ${selectedAssessment.title}
+Category: ${selectedAssessment.category}
+Score: ${pendingResults.score}/${pendingResults.totalQuestions} (${Math.round((pendingResults.score/pendingResults.totalQuestions)*100)}%)
+Status: ${pendingResults.passed ? 'PASSED' : 'FAILED'}
+Correct Answers: ${pendingResults.correctAnswers}/${pendingResults.totalQuestions}
 
-      alert('Assessment submitted successfully! Your results have been saved.');
+Detailed Results:
+${assessmentData.questionsAndAnswers.map((qa, index) => 
+  `${index + 1}. ${qa.question}
+   Student Answer: ${qa.studentAnswer}
+   Correct Answer: ${qa.correctAnswer}
+   Result: ${qa.isCorrect ? '✓ Correct' : '✗ Incorrect'}
+  `
+).join('\n')}`,
+        is_demo: 'Assessment Submission',
+        to_name: 'Fiesta EdTech Team'
+      };
+
+      // Send email first - this is the most important part
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_USER_ID
+      );
+
+      // Only after successful email, try to save to localStorage (optional)
+      try {
+        // Get existing assessment submissions from localStorage
+        const existingSubmissions = JSON.parse(localStorage.getItem('assessmentSubmissions') || '[]');
+        
+        // Add new submission
+        existingSubmissions.push(assessmentData);
+        
+        // Save back to localStorage
+        localStorage.setItem('assessmentSubmissions', JSON.stringify(existingSubmissions));
+      } catch (localStorageError) {
+        console.warn('LocalStorage save failed, but email was sent successfully:', localStorageError);
+        // Don't fail the submission if localStorage fails
+      }
+
+      alert('Assessment submitted successfully! Your results have been sent to our team.');
       
       // Reset form and show results
       setStudentInfo({ name: '', email: '' });
@@ -407,8 +455,8 @@ const Assessments = () => {
       setPendingResults(null);
 
     } catch (error) {
-      console.error('Error saving assessment:', error);
-      alert('There was an error saving your results. Please try again.');
+      console.error('Error submitting assessment:', error);
+      alert('There was an error submitting your results. Please try again.');
       setIsSubmitting(false);
     }
   };

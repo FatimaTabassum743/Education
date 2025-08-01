@@ -47,18 +47,7 @@ const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) =>
     setSubmitStatus(null);
 
     try {
-      // Save to local storage
-      const submissionData = {
-        ...formData,
-        id: Date.now(),
-        timestamp: new Date().toISOString(),
-        status: 'new',
-        type: isDemo ? 'demo' : 'inquiry'
-      };
-
-      localStorageService.addFormData(submissionData);
-      
-      // Send email using EmailJS
+      // Send email using EmailJS FIRST (prioritize email over localStorage)
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
@@ -71,12 +60,29 @@ const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) =>
         to_name: 'Fiesta EdTech Team'
       };
 
+      // Send email first - this is the most important part
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         templateParams,
         EMAILJS_USER_ID
       );
+      
+      // Only after successful email, try to save to localStorage (optional)
+      try {
+        const submissionData = {
+          ...formData,
+          id: Date.now(),
+          timestamp: new Date().toISOString(),
+          status: 'new',
+          type: isDemo ? 'demo' : 'inquiry'
+        };
+
+        localStorageService.addFormData(submissionData);
+      } catch (localStorageError) {
+        console.warn('LocalStorage save failed, but email was sent successfully:', localStorageError);
+        // Don't fail the form submission if localStorage fails
+      }
       
       setSubmitStatus('success');
       setFormData({
