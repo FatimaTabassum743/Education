@@ -12,6 +12,7 @@ import {
   Users,
   X
 } from 'lucide-react';
+import emailjs from 'emailjs-com';
 
 const Tasks = () => {
   const [enabledTasks, setEnabledTasks] = useState([1]);
@@ -23,6 +24,11 @@ const Tasks = () => {
     courseName: '',
     githubLink: ''
   });
+
+  // EmailJS configuration
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_lzv0n76';
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_hywc48o';
+  const EMAILJS_USER_ID = process.env.REACT_APP_EMAILJS_USER_ID || '92m3Tvs-ztcNiRG6X';
 
   const tasks = [
     {
@@ -363,44 +369,91 @@ Design, deploy, and manage a scalable application on AWS cloud infrastructure.
     setShowCompletionModal(true);
   };
 
-  const handleSubmitCompletion = () => {
+  const handleSubmitCompletion = async () => {
     if (!studentInfo.name || !studentInfo.courseName || !studentInfo.githubLink) {
       alert('Please fill in all fields');
       return;
     }
 
-    // Create completion record
-    const completionRecord = {
-      id: Date.now(),
-      taskId: selectedTask.id,
-      taskTitle: selectedTask.title,
-      studentName: studentInfo.name,
-      courseName: studentInfo.courseName,
-      githubLink: studentInfo.githubLink,
-      completedAt: new Date().toISOString(),
-      points: selectedTask.points
-    };
+    try {
+      // Create completion record
+      const completionRecord = {
+        id: Date.now(),
+        taskId: selectedTask.id,
+        taskTitle: selectedTask.title,
+        studentName: studentInfo.name,
+        courseName: studentInfo.courseName,
+        githubLink: studentInfo.githubLink,
+        completedAt: new Date().toISOString(),
+        points: selectedTask.points
+      };
 
-    // Get existing completions from localStorage
-    const existingCompletions = JSON.parse(localStorage.getItem('taskCompletions') || '[]');
-    
-    // Add new completion
-    const updatedCompletions = [...existingCompletions, completionRecord];
-    
-    // Save to localStorage
-    localStorage.setItem('taskCompletions', JSON.stringify(updatedCompletions));
+      // Send task completion via email FIRST
+      const templateParams = {
+        from_name: studentInfo.name,
+        from_email: 'task-submission@fiesta-edtech.com', // Since we don't collect email in tasks
+        phone: 'Not provided',
+        age: 'Not provided',
+        country: 'Not provided',
+        course: selectedTask.title,
+        message: `Task Completion Submission:
 
-    // Mark task as completed in state
-    if (!completedTasks.includes(selectedTask.id)) {
-      setCompletedTasks([...completedTasks, selectedTask.id]);
+Task: ${selectedTask.title}
+Category: ${selectedTask.category}
+Difficulty: ${selectedTask.difficulty}
+Points: ${selectedTask.points}
+
+Student Details:
+- Name: ${studentInfo.name}
+- Course: ${studentInfo.courseName}
+- GitHub Link: ${studentInfo.githubLink}
+
+Task Requirements:
+${selectedTask.requirements.map((req, index) => `${index + 1}. ${req}`).join('\n')}
+
+Completed at: ${new Date().toLocaleString()}`,
+        is_demo: 'Task Completion',
+        to_name: 'Fiesta EdTech Team'
+      };
+
+      // Send email first - this is the most important part
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_USER_ID
+      );
+
+      // Only after successful email, try to save to localStorage (optional)
+      try {
+        // Get existing completions from localStorage
+        const existingCompletions = JSON.parse(localStorage.getItem('taskCompletions') || '[]');
+        
+        // Add new completion
+        const updatedCompletions = [...existingCompletions, completionRecord];
+        
+        // Save to localStorage
+        localStorage.setItem('taskCompletions', JSON.stringify(updatedCompletions));
+      } catch (localStorageError) {
+        console.warn('LocalStorage save failed, but email was sent successfully:', localStorageError);
+        // Don't fail the submission if localStorage fails
+      }
+
+      // Mark task as completed in state
+      if (!completedTasks.includes(selectedTask.id)) {
+        setCompletedTasks([...completedTasks, selectedTask.id]);
+      }
+
+      // Reset form and close modal
+      setStudentInfo({ name: '', courseName: '', githubLink: '' });
+      setShowCompletionModal(false);
+      setSelectedTask(null);
+
+      alert('Task completed successfully! Your submission has been sent to our team.');
+    } catch (error) {
+      console.error('Error submitting task completion:', error);
+      alert('There was an error submitting your task completion. Please try again.');
     }
-
-    // Reset form and close modal
-    setStudentInfo({ name: '', courseName: '', githubLink: '' });
-    setShowCompletionModal(false);
-    setSelectedTask(null);
-
-    alert('Task completed successfully! Your submission has been recorded.');
   };
 
   const handleStartTask = (taskLink) => {
