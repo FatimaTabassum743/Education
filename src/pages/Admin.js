@@ -1,19 +1,40 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  Download, 
+  User, 
+  Target, 
+  Award, 
+  Mail, 
+  Phone, 
+  Calendar, 
+  MessageSquare, 
+  BarChart3, 
+  TrendingUp, 
+  Users, 
+  Globe, 
+  CheckCircle, 
+  XCircle, 
+  AlertCircle, 
+  Edit, 
   Trash2, 
-  Eye,
-  CheckCircle,
-  Clock,
-  MessageSquare,
-  BookOpen,
-  RefreshCw,
-  User,
-  Lock,
-  X,
-  Target,
-  ExternalLink,
-  Award
+  Plus, 
+  Search, 
+  Filter, 
+  Download, 
+  Eye, 
+  Clock, 
+   Lock,
+   ExternalLink,
+   RefreshCw,
+   BookOpen,
+   X,
+   ArrowLeft,
+   ArrowRight,
+   ArrowUp,
+  ChevronDown, 
+  ChevronUp, 
+  Star, 
+  StarHalf, 
+  StarOff 
 } from 'lucide-react';
 import localStorageService from '../services/localStorageService';
 
@@ -40,44 +61,41 @@ const Admin = () => {
   const ADMIN_PASSWORD = 'fatima123';
 
   const filterAndSortData = useCallback(() => {
-    // Ensure formData is always an array
-    const data = Array.isArray(formData) ? formData : [];
-    console.log('filterAndSortData called with data:', data);
-    let filtered = [...data];
-
+    let filtered = [...formData];
+    
     // Apply search filter
     if (searchTerm) {
-      filtered = filtered.filter(item =>
+      filtered = filtered.filter(item => 
         item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.phone?.includes(searchTerm) ||
-        item.course?.toLowerCase().includes(searchTerm.toLowerCase())
+        item.phone?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.course?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.message?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
+    
     // Apply status filter
     if (statusFilter !== 'all') {
       filtered = filtered.filter(item => item.status === statusFilter);
     }
-
+    
     // Apply sorting
     filtered.sort((a, b) => {
       let aValue = a[sortBy];
       let bValue = b[sortBy];
-
-      if (sortBy === 'timestamp') {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
+      
+      if (sortBy === 'date') {
+        aValue = new Date(a.date);
+        bValue = new Date(b.date);
       }
-
+      
       if (sortOrder === 'asc') {
         return aValue > bValue ? 1 : -1;
       } else {
         return aValue < bValue ? 1 : -1;
       }
     });
-
-    console.log('Setting filteredData to:', filtered);
+    
     setFilteredData(filtered);
   }, [formData, searchTerm, statusFilter, sortBy, sortOrder]);
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import PageTitle from '../components/PageTitle';
 import { 
   FileText, 
   Clock, 
@@ -6,13 +7,10 @@ import {
   XCircle, 
   Play, 
   Award,
-  BookOpen,
   Target,
-  Users,
-  Calendar,
-  BarChart3,
   X,
-  Save
+  Save,
+  AlertTriangle
 } from 'lucide-react';
 import emailjs from 'emailjs-com';
 
@@ -24,17 +22,43 @@ const Assessments = () => {
   const [testResults, setTestResults] = useState(null);
   const [completedAssessments, setCompletedAssessments] = useState([]);
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
-  const [studentInfo, setStudentInfo] = useState({
-    name: '',
-    email: ''
-  });
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [studentName, setStudentName] = useState('');
+  const [studentEmail, setStudentEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pendingResults, setPendingResults] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+  const [timerActive, setTimerActive] = useState(false);
 
   // EmailJS configuration
   const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_lzv0n76';
   const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_hywc48o';
   const EMAILJS_USER_ID = process.env.REACT_APP_EMAILJS_USER_ID || '92m3Tvs-ztcNiRG6X';
+
+  const handleTimeUp = useCallback(() => {
+    setTimerActive(false);
+    submitAssessment();
+  }, []);
+
+  // Timer effect
+  useEffect(() => {
+    let interval = null;
+    if (timerActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+    } else if (timeLeft === 0 && timerActive) {
+      // Auto-submit when time runs out
+      handleTimeUp();
+    }
+    return () => clearInterval(interval);
+  }, [timerActive, timeLeft, handleTimeUp]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const assessments = [
     {
@@ -42,8 +66,8 @@ const Assessments = () => {
       title: "HTML Fundamentals Quiz",
       description: "Test your knowledge of HTML basics, tags, and structure",
       category: "Web Development",
-      duration: "30 minutes",
-      questions: 20,
+      duration: "10 minutes",
+      questions: 5,
       difficulty: "Beginner",
       passingScore: 70,
       questionsList: [
@@ -94,8 +118,8 @@ const Assessments = () => {
       title: "CSS Styling Assessment",
       description: "Evaluate your CSS knowledge and styling techniques",
       category: "Web Development",
-      duration: "45 minutes",
-      questions: 25,
+      duration: "10 minutes",
+      questions: 5,
       difficulty: "Intermediate",
       passingScore: 75,
       questionsList: [
@@ -146,7 +170,7 @@ const Assessments = () => {
       title: "JavaScript Basics Test",
       description: "Test your JavaScript programming fundamentals",
       category: "Web Development",
-      duration: "60 minutes",
+      duration: "10 minutes",
       questions: 30,
       difficulty: "Intermediate",
       passingScore: 80,
@@ -208,8 +232,8 @@ const Assessments = () => {
       title: "Python Programming Quiz",
       description: "Test your Python programming knowledge and skills",
       category: "Programming",
-      duration: "50 minutes",
-      questions: 25,
+      duration: "10 minutes",
+      questions: 5,
       difficulty: "Beginner",
       passingScore: 70,
       questionsList: [
@@ -255,8 +279,8 @@ const Assessments = () => {
       title: "React.js Fundamentals",
       description: "Test your React.js knowledge and component understanding",
       category: "Web Development",
-      duration: "40 minutes",
-      questions: 20,
+      duration: "10 minutes",
+      questions: 5,
       difficulty: "Advanced",
       passingScore: 75,
       questionsList: [
@@ -310,6 +334,8 @@ const Assessments = () => {
     setAnswers({});
     setIsTestActive(true);
     setTestResults(null);
+    setTimeLeft(600); // Always set to 10 minutes (600 seconds)
+    setTimerActive(true);
   };
 
   const handleAnswerSelect = (questionId, answerIndex) => {
@@ -354,7 +380,8 @@ const Assessments = () => {
     };
 
     setPendingResults(results);
-    setShowSubmissionModal(true);
+    setShowConfirmationModal(true);
+    setTimerActive(false); // Stop timer on submission
 
     if (passed && !completedAssessments.includes(selectedAssessment.id)) {
       setCompletedAssessments([...completedAssessments, selectedAssessment.id]);
@@ -362,9 +389,7 @@ const Assessments = () => {
   };
 
   const handleSubmitResults = async () => {
-    // setPendingResults(results);
-    setShowSubmissionModal(true);
-    if (!studentInfo.name || !studentInfo.email) {
+    if (!studentName || !studentEmail) {
       alert('Please fill in both name and email');
       return;
     }
@@ -375,8 +400,8 @@ const Assessments = () => {
       // Prepare assessment data
       const assessmentData = {
         id: Date.now(),
-        studentName: studentInfo.name,
-        studentEmail: studentInfo.email,
+        studentName: studentName,
+        studentEmail: studentEmail,
         assessmentTitle: selectedAssessment.title,
         assessmentCategory: selectedAssessment.category,
         score: pendingResults.score,
@@ -396,8 +421,8 @@ const Assessments = () => {
 
       // Send assessment results via email FIRST
       const templateParams = {
-        from_name: studentInfo.name,
-        from_email: studentInfo.email,
+        from_name: studentName,
+        from_email: studentEmail,
         phone: 'Not provided',
         age: 'Not provided',
         country: 'Not provided',
@@ -445,14 +470,16 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
         // Don't fail the submission if localStorage fails
       }
 
-      alert('Assessment submitted successfully! Your results have been sent to our team.');
-      
-      // Reset form and show results
-      setStudentInfo({ name: '', email: '' });
+      // Show success popup and navigate to assignment main page
       setShowSubmissionModal(false);
       setIsSubmitting(false);
       setTestResults(pendingResults);
       setPendingResults(null);
+      setStudentName('');
+      setStudentEmail('');
+      
+      // Navigate to assignment main page after successful submission
+      window.location.href = '/assignments';
 
     } catch (error) {
       console.error('Error submitting assessment:', error);
@@ -463,7 +490,8 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
 
   const handleSkipEmail = () => {
     setShowSubmissionModal(false);
-    setStudentInfo({ name: '', email: '' });
+    setStudentName('');
+    setStudentEmail('');
     setIsSubmitting(false);
     setTestResults(pendingResults);
     setPendingResults(null);
@@ -476,8 +504,12 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
     setIsTestActive(false);
     setTestResults(null);
     setShowSubmissionModal(false);
-    setStudentInfo({ name: '', email: '' });
+    setShowConfirmationModal(false);
+    setStudentName('');
+    setStudentEmail('');
     setPendingResults(null);
+    setTimerActive(false);
+    setTimeLeft(600); // Reset timer to 10 minutes
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -487,6 +519,67 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
       case 'Advanced': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  // Confirmation Modal Component
+  const ConfirmationModal = () => {
+    if (!showConfirmationModal) return null;
+    
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">
+              <AlertTriangle className="inline-block w-5 h-5 mr-2 text-orange-600" />
+              Confirm Submission
+            </h3>
+            <button
+              onClick={() => setShowConfirmationModal(false)}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="space-y-4">
+            <div className="bg-orange-50 p-3 rounded-lg">
+              <p className="text-sm text-orange-800">
+                <strong>Are you sure you want to submit your assessment?</strong>
+              </p>
+              <p className="text-sm text-orange-700 mt-2">
+                This action cannot be undone. Your answers will be submitted and you'll be redirected to the assignment main page.
+              </p>
+            </div>
+            <div className="bg-gray-50 p-3 rounded-lg">
+              <p className="text-sm text-gray-700">
+                <strong>Assessment Summary:</strong>
+              </p>
+              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                <li>• Assessment: {selectedAssessment?.title}</li>
+                <li>• Questions Answered: {Object.keys(answers).length}/{selectedAssessment?.questionsList.length}</li>
+                <li>• Time Remaining: {formatTime(timeLeft)}</li>
+              </ul>
+            </div>
+          </div>
+          <div className="flex space-x-3 mt-6">
+            <button
+              onClick={() => setShowConfirmationModal(false)}
+              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                setShowConfirmationModal(false);
+                setShowSubmissionModal(true);
+              }}
+              className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors duration-200"
+            >
+              Confirm Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   // Modal Component
@@ -499,7 +592,7 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">
               <Save className="inline-block w-5 h-5 mr-2 text-blue-600" />
-              Get Your Results
+              To Get Your Results
             </h3>
             <button
               onClick={handleSkipEmail}
@@ -515,8 +608,9 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
               </label>
               <input
                 type="text"
-                value={studentInfo.name}
-                onChange={(e) => setStudentInfo({ ...studentInfo, name: e.target.value })}
+                id="student-name"
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your full name"
               />
@@ -527,23 +621,14 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
               </label>
               <input
                 type="email"
-                value={studentInfo.email}
-                onChange={(e) => setStudentInfo({ ...studentInfo, email: e.target.value })}
+                id="student-email"
+                value={studentEmail}
+                onChange={(e) => setStudentEmail(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your email address"
               />
             </div>
-            <div className="bg-blue-50 p-3 rounded-lg">
-              <p className="text-sm text-blue-800">
-                <strong>What you'll receive:</strong>
-              </p>
-              <ul className="text-sm text-blue-700 mt-1 space-y-1">
-                <li>• Your assessment score and results</li>
-                <li>• Detailed breakdown of your answers</li>
-                <li>• Correct answers for learning</li>
-                <li>• Certificate of completion (if passed)</li>
-              </ul>
-            </div>
+        
           </div>
           <div className="flex space-x-3 mt-6">
             <button
@@ -581,10 +666,10 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
     const progress = ((currentQuestion + 1) / totalQuestions) * 100;
 
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-50 py-8 mt-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
           {/* Test Header */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6 mt-10">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-gray-900">{selectedAssessment.title}</h2>
               <button
@@ -610,9 +695,14 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
             </div>
 
             {/* Timer */}
-            <div className="flex items-center text-sm text-gray-600">
+            <div className={`flex items-center text-sm ${timeLeft <= 60 ? 'text-red-600 font-semibold' : 'text-gray-600'}`}>
               <Clock className="w-4 h-4 mr-2" />
-              Time remaining: {selectedAssessment.duration}
+              Time remaining: {formatTime(timeLeft)}
+              {timeLeft <= 60 && (
+                <span className="ml-2 text-xs bg-red-100 text-red-800 px-2 py-1 rounded">
+                  ⚠️ Time running out!
+                </span>
+              )}
             </div>
           </div>
 
@@ -683,6 +773,7 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
           </div>
         </div>
 
+        <ConfirmationModal />
         <SubmissionModal />
       </div>
     );
@@ -753,13 +844,16 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
           </div>
         </div>
 
+        <ConfirmationModal />
         <SubmissionModal />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <>
+      <PageTitle title="Assessments" />
+      <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -905,8 +999,10 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
         </div>
       </div>
 
+      <ConfirmationModal />
       <SubmissionModal />
     </div>
+    </>
   );
 };
 

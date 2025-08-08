@@ -1,41 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="google-site-verification" content="I13ZZf312ncH4LT3CKgIVscNFKgcBCuf97cxBOcYaYQ" />
     <meta charset="utf-8" />
-    <link rel="icon" href="./fav.png" />
+    <meta name="google-site-verification" content="rAGnBfaBQgf3sFgS0RtBB8_H-r7oSacJD9cZPJCbYGs" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#8b5cf6" />
     <meta
       name="description"
-      content="GenzLearner - Online Live Classes for Students Aged 12-21. Learn Web Development, AI/ML, Digital Marketing & More with Expert Instructors. Join our global community of young learners!"
+      content="KodeZ Academy - Empowering learners with (Knowledge, Education, Skills, Upliftment & Growth). Online Live Classes for Students Aged 12-21. Learn Web Development, AI/ML, Digital Marketing & More with Expert Instructors. Join our global community of young learners!"
     />
-    <meta name="keywords" content="online live classes, GenzLearner education, web development, AI/ML, digital marketing, coding for teens, online learning, live tutoring, international students, 12-21 age group" />
-    <meta name="author" content="GenzLearner" />
+          <meta name="keywords" content="online live classes, KodeZ Academy education, web development, AI/ML, digital marketing, coding for teens, online learning, live tutoring, international students, 12-21 age group" />
+          <meta name="author" content="KodeZ Academy" />
     <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="generator" content="React" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kodezacademy.com/" />
+    
+
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://genzlearner.com/" />
-    <meta property="og:title" content="GenzLearner - Online Live Classes for Young Learners" />
+    <meta property="og:url" content="https://kodezacademy.com/" />
+    <meta property="og:title" content="KodeZ Academy - Online Live Classes for Young Learners" />
     <meta property="og:description" content="Join our global community of students aged 12-21. Learn from expert instructors in live online classes. Web Development, AI/ML, Digital Marketing & more!" />
-    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <meta property="og:image" content="https://kodezacademy.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="KodeZ Academy" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://genzlearner.com/" />
-    <meta property="twitter:title" content="GenzLearner - Online Live Classes for Young Learners" />
+    <meta property="twitter:url" content="https://kodezacademy.com/" />
+    <meta property="twitter:title" content="KodeZ Academy - Online Live Classes for Young Learners" />
     <meta property="twitter:description" content="Join our global community of students aged 12-21. Learn from expert instructors in live online classes." />
-    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <meta property="twitter:image" content="https://kodezacademy.com/og-image.png" />
+    <meta property="twitter:site" content="@kodezacademy" />
+    <meta property="twitter:creator" content="@kodezacademy" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>GenzLearner - Online Live Classes for Young Learners (12-21)</title>
+    <title>KodeZ Academy - Online Live Classes for Young Learners (12-21)</title>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      // Enhanced Service Worker Registration for InfinityFree
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          // Try multiple paths for service worker
+          const swPaths = ['/sw.js', './sw.js'];
+          
+          const registerSW = async (path) => {
+            try {
+              const registration = await navigator.serviceWorker.register(path, {
+                scope: '/',
+                updateViaCache: 'none'
+              });
+              console.log('SW registered successfully:', registration);
+              
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('New service worker available');
+                  }
+                });
+              });
+              
+              return registration;
+            } catch (error) {
+              console.log('SW registration failed for path', path, ':', error);
+              return null;
+            }
+          };
+          
+          // Try each path until one works
+          let registration = null;
+          (async () => {
+            for (const path of swPaths) {
+              registration = await registerSW(path);
+              if (registration) break;
+            }
+            
+            if (!registration) {
+              console.warn('Service worker registration failed for all paths');
+            }
+          })();
+        });
+      } else {
+        console.log('Service Worker not supported');
+      }
+      
+      // PWA Installation Prompt
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        console.log('PWA install prompt ready');
+      });
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

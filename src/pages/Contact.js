@@ -1,7 +1,29 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, MessageCircle, Send, Globe, Clock, Users } from 'lucide-react';
+import { 
+  Mail, 
+  Phone, 
+  Send, 
+  Globe, 
+  Calendar, 
+  Clock, 
+  CheckCircle, 
+  Play, 
+  ArrowRight, 
+  Star, 
+  Users, 
+  Target, 
+  Award, 
+  BookOpen, 
+  Video, 
+  MessageCircle, 
+  MapPin, 
+   
+  
+} from 'lucide-react';
 import ContactForm from '../components/ContactForm';
+import EnhancedSEO from '../components/EnhancedSEO';
 import {FaWhatsapp} from 'react-icons/fa';
+import PageTitle from '../components/PageTitle';
 
 const Contact = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -10,14 +32,14 @@ const Contact = () => {
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Email Us",
-      details: "hello@genzlearner.com",
+      details: "kodezacademy@gmail.com",
       description: "Get in touch for course inquiries and support"
     },
     {
       icon: <Phone className="h-6 w-6" />,
       title: "Call Us",
       details: "+91 81422 00317",
-      description: "Available Mon-Sat, 9 AM - 9 PM IST"
+      description: "Available Mon-Sat, 10 AM - 10 PM IST"
     },
     {
       icon: <Globe className="h-6 w-6" />,
@@ -61,14 +83,26 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-16">
+    <>
+      <PageTitle title="Contact Us" />
+      <EnhancedSEO 
+        title="Contact KodeZ Academy - Get in Touch for Online Coding Classes"
+        description="Contact KodeZ Academy for information about our live online coding classes. Get support, book demo classes, and join our global community of students aged 12-21."
+        keywords={['contact KodeZ Academy', 'online coding classes support', 'book demo class', 'coding education contact', 'student support', 'global learning community']}
+        type="website"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Contact', url: '/contact' }
+        ]}
+      />
+      <div className="min-h-screen pt-16">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Get in Touch with
-              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"> GenzLearner</span>
+                              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"> KodeZ Academy</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               Have questions about our live classes? Want to join our global community of young learners? 
@@ -140,7 +174,7 @@ const Contact = () => {
                     <Mail className="w-6 h-6 text-primary-600 mt-1" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">hello@genzlearner.com</p>
+                      <p className="text-gray-600">hello@kodezacademy.com</p>
                       <p className="text-sm text-gray-500">We respond within 24 hours</p>
                     </div>
                   </div>
@@ -170,7 +204,7 @@ const Contact = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick WhatsApp Chat</h3>
                 <p className="text-gray-600 mb-4">Get instant answers to your questions via WhatsApp</p>
                 <a
-                  href="https://wa.me/918142200317?text=Hi! I'm interested in GenzLearner courses. Can you provide more details?"
+                  href="https://wa.me/918142200317?text=Hi! I'm interested in KodeZ Academy courses. Can you provide more details?"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
@@ -258,7 +292,7 @@ const Contact = () => {
               Book Free Demo Class
             </button>
             <a
-              href="https://wa.me/918142200317?text=Hi! I'm interested in GenzLearner courses. Can you provide more details?"
+              href="https://wa.me/918142200317?text=Hi! I'm interested in KodeZ Academy courses. Can you provide more details?"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
@@ -276,7 +310,8 @@ const Contact = () => {
         onClose={() => setIsFormOpen(false)}
         isDemo={true}
       />
-    </div>
+      </div>
+    </>
   );
 };
 

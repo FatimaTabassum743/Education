@@ -1,26 +1,39 @@
 import React, { useState } from 'react';
 import { 
   Code, 
-  TrendingUp, 
-  Smartphone, 
-  Database, 
-  Cloud, 
-  Globe, 
-  Users, 
   Clock, 
+  Users, 
   Star, 
   Play,
-  Calendar,
-  Video,
-  MessageCircle,
-  CheckCircle,
-  Server,
-  BookOpen,
-  Target,
-  FileText
+  FileText, 
+  ArrowRight, 
+  CheckCircle, 
+  Target, 
+  Award, 
+  BookOpen, 
+  Video, 
+  Globe, 
+  Calendar, 
+  MessageCircle, 
+  Send, 
+  ExternalLink, 
+  X, 
+  AlertCircle, 
+  Plus, 
+  Edit, 
+  Trash2, 
+  Search, 
+  Filter, 
+  Download, 
+  Eye, 
+  ChevronDown, 
+  ChevronUp, 
+  StarHalf, 
+  StarOff 
 } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
-import WhatsAppButton from '../components/WhatsAppButton';
+import EnhancedSEO from '../components/EnhancedSEO';
+import ProtectedButton from '../components/ProtectedButton';
 import { Link } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -50,7 +63,7 @@ const Courses = () => {
         "24/7 Doubt Support",
         "Certificate of Completion"
       ],
-      schedule: "Mon, Wed, Fri - 6:00 PM IST",
+      // schedule: "Mon, Wed, Fri - 6:00 PM IST",
       nextBatch: "Starting Soon",
       // instructor: "Fatima Tabassum",
       // instructorExp: "5+ years in Web Development"
@@ -67,7 +80,7 @@ const Courses = () => {
       students: "120+",
       rating: 4.9,
       reviews: 67,
-      icon: <Database className="w-8 h-8" />,
+      icon: <Code className="w-8 h-8" />,
       features: [
         "MongoDB Database Design",
         "Express.js Backend Development",
@@ -78,7 +91,7 @@ const Courses = () => {
         "Real-time Applications",
         "Full Stack Projects"
       ],
-      schedule: "Tue, Thu, Sat - 7:00 PM IST",
+      // schedule: "Tue, Thu, Sat - 7:00 PM IST",
       nextBatch: "Starting Soon",
       // instructor: "Fatima Tabassum",
       // instructorExp: "6+ years in MERN Stack"
@@ -95,7 +108,7 @@ const Courses = () => {
       students: "120+",
       rating: 4.9,
       reviews: 67,
-      icon: <TrendingUp className="w-8 h-8" />,
+      icon: <Code className="w-8 h-8" />,
       features: [
         "Python Programming Fundamentals",
         "Data Science & Analytics",
@@ -123,7 +136,7 @@ const Courses = () => {
       students: "200+",
       rating: 4.7,
       reviews: 134,
-      icon: <Smartphone className="w-8 h-8" />,
+      icon: <Code className="w-8 h-8" />,
       features: [
         "Social Media Marketing",
         "Search Engine Optimization (SEO)",
@@ -179,7 +192,7 @@ const Courses = () => {
       students: "100+",
       rating: 4.8,
       reviews: 78,
-      icon: <Server className="w-8 h-8" />,
+      icon: <Code className="w-8 h-8" />,
       features: [
         "Linux Fundamentals & Commands",
         "System Administration",
@@ -207,7 +220,7 @@ const Courses = () => {
       students: "80+",
       rating: 4.9,
       reviews: 45,
-      icon: <Cloud className="w-8 h-8" />,
+      icon: <Code className="w-8 h-8" />,
       features: [
         "AWS Fundamentals & Services",
         "EC2 & Virtual Machines",
@@ -267,7 +280,18 @@ Thank you!`;
   };
 
   return (
-    <div className="min-h-screen pt-16">
+    <>
+      <EnhancedSEO 
+        title="Online Coding Courses - Web Development, MERN Stack, AI/ML | KodeZ Academy"
+        description="Explore our live online coding courses: Web Development with AI, MERN Stack, AI/ML, and Digital Marketing. Expert instructors, small group classes, and global community for students 12-21."
+        keywords={['online coding courses', 'web development course', 'MERN stack course', 'AI machine learning course', 'digital marketing course', 'live programming classes', 'coding for students']}
+        type="website"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Courses', url: '/courses' }
+        ]}
+      />
+      <div className="min-h-screen pt-16">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -351,7 +375,7 @@ Thank you!`;
                   
                   <div className="bg-accent-50 rounded-lg p-3 mb-4">
                     <div className="text-sm font-medium text-accent-800 mb-1">Next Batch: {course.nextBatch}</div>
-                    <div className="text-xs text-accent-600">Schedule: {course.schedule}</div>
+                    {/* <div className="text-xs text-accent-600">Schedule: {course.schedule}</div> */}
                   </div>
                 </div>
 
@@ -386,7 +410,7 @@ Thank you!`;
                       Ask on WhatsApp
                     </button>
 
-                    <button
+                    {/* <button
                       onClick={() => window.open('/notes', '_blank')}
                       disabled={course.title !== "Web Development"}
                       className={`w-full font-semibold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center ${
@@ -397,7 +421,7 @@ Thank you!`;
                     >
                       <BookOpen className="mr-2 h-4 w-4" />
                       {course.title === "Web Development" ? "View Notes" : "Notes Coming Soon"}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -418,7 +442,7 @@ Thank you!`;
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Notes Feature */}
             <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-6">
@@ -475,6 +499,25 @@ Thank you!`;
                 Take Tests
               </Link>
             </div>
+
+            {/* Certificate Feature */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <Award className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Certificates</h3>
+              <p className="text-gray-600 mb-6">
+                Earn professional certificates upon course completion. 
+                Download, print, and share your achievements with employers and on social media.
+              </p>
+              <Link
+                to="/certificate"
+                className="inline-flex items-center px-6 py-3 bg-yellow-600 text-white font-semibold rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+              >
+                <Award className="w-4 h-4 mr-2" />
+                View Certificates
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -517,7 +560,8 @@ Thank you!`;
         courseTitle={selectedCourse?.title}
         isDemo={true}
       />
-    </div>
+      </div>
+    </>
   );
 };
 

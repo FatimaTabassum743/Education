@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PageTitle from '../components/PageTitle';
 import { 
   CheckCircle, 
   Circle, 
@@ -13,9 +14,10 @@ import {
   X
 } from 'lucide-react';
 import emailjs from 'emailjs-com';
+import ProtectedButton from '../components/ProtectedButton';
 
 const Tasks = () => {
-  const [enabledTasks, setEnabledTasks] = useState([1]);
+  const [enabledTasks, setEnabledTasks] = useState([1, 2, 3, 4, 5, 6, 7]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -352,11 +354,7 @@ Design, deploy, and manage a scalable application on AWS cloud infrastructure.
   ];
 
   const toggleTask = (taskId) => {
-    // Prevent web development task (id: 1) from being disabled
-    if (taskId === 1) {
-      return; // Do nothing - web development task stays enabled
-    }
-    
+    // All tasks can be toggled on/off
     if (enabledTasks.includes(taskId)) {
       setEnabledTasks(enabledTasks.filter(id => id !== taskId));
     } else {
@@ -483,7 +481,9 @@ Completed at: ${new Date().toLocaleString()}`,
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <>
+      <PageTitle title="Tasks" />
+      <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8 mt-10">
@@ -492,8 +492,8 @@ Completed at: ${new Date().toLocaleString()}`,
             Course Tasks
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Complete tasks to progress through your course. The Web Development task is always enabled. 
-            Click on other tasks to enable them, then work through the requirements to earn points.
+            Complete tasks to progress through your course. All tasks are enabled by default. 
+            Click on tasks to toggle them on/off, then work through the requirements to earn points.
           </p>
         </div>
 
@@ -544,13 +544,11 @@ Completed at: ${new Date().toLocaleString()}`,
                       <button
                         onClick={() => toggleTask(task.id)}
                         className={`p-2 rounded-full transition-colors duration-200 ${
-                          task.id === 1 
-                            ? 'bg-green-100 text-green-600 cursor-not-allowed' // Web Development task - always enabled
-                            : isEnabled 
-                              ? 'bg-blue-100 text-blue-600 hover:bg-blue-200' 
-                              : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                          isEnabled 
+                            ? 'bg-blue-100 text-blue-600 hover:bg-blue-200' 
+                            : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                         }`}
-                        title={task.id === 1 ? 'Web Development task is always enabled' : ''}
+                        title={isEnabled ? 'Click to disable task' : 'Click to enable task'}
                       >
                         {isEnabled ? <CheckCircle className="w-5 h-5" /> : <Circle className="w-5 h-5" />}
                       </button>
@@ -609,23 +607,25 @@ Completed at: ${new Date().toLocaleString()}`,
                   {/* Action Buttons */}
                   <div className="flex space-x-3">
                     {isEnabled && !isCompleted && (
-                      <button
+                      <ProtectedButton
                         onClick={() => handleMarkComplete(task)}
+                        courseName={task.category}
                         className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 transition-colors duration-200"
                       >
                         <Award className="w-4 h-4 mr-2" />
                         Submit
-                      </button>
+                      </ProtectedButton>
                     )}
                     
                     {isEnabled && (
-                      <button 
+                      <ProtectedButton 
                         onClick={() => handleStartTask(task.taskLink)}
+                        courseName={task.category}
                         className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
                       >
                         <Play className="w-4 h-4 mr-2" />
                         {isCompleted ? 'Review Task' : 'Start Task'}
-                      </button>
+                      </ProtectedButton>
                     )}
                   </div>
 
@@ -655,7 +655,7 @@ Completed at: ${new Date().toLocaleString()}`,
             <div className="flex items-start">
               <Circle className="w-5 h-5 mr-2 mt-0.5 text-blue-600" />
               <div>
-                <strong>1. Task Status:</strong> Web Development task is always enabled. Other tasks can be toggled on/off
+                <strong>1. Task Status:</strong> All tasks are enabled by default. Click to toggle them on/off
               </div>
             </div>
             <div className="flex items-start">
@@ -776,6 +776,7 @@ Completed at: ${new Date().toLocaleString()}`,
         </div>
       )}
     </div>
+    </>
   );
 };
 

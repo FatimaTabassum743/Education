@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import PageTitle from '../components/PageTitle';
 import { 
   BookOpen, 
   Search, 
   Filter, 
-  Download, 
   Eye,
   Calendar,
   Clock,
   User
 } from 'lucide-react';
+import ProtectedButton from '../components/ProtectedButton';
 
 const Notes = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,7 +25,7 @@ const Notes = () => {
       // author: "Fatima Tabassum",
       date: "2025-01-15",
       readTime: "15 min",
-      downloads: 245,
+      // downloads: 245,
       driveLink: "https://drive.google.com/drive/u/0/folders/1aZJ7reVMkbQLfsk5dvg0IMsIksIoxjmP"
     },
     {
@@ -36,7 +37,7 @@ const Notes = () => {
       // author: "Fatima Tabassum",
       date: "2025-01-20",
       readTime: "25 min",
-      downloads: 189,
+      // downloads: 189,
       driveLink: "https://docs.google.com/document1/d/1MERN_Stack_Notes"
     },
     {
@@ -72,7 +73,7 @@ const Notes = () => {
       // author: "Fatima Tabassum",
       date: "2025-02-05",
       readTime: "22 min",
-      downloads: 156,
+      // downloads: 156,
       driveLink: "https://docs.google.com/document1/d/1Dwbuv_FjNvDzBpuZwGnTq_S7OQso6B_R/edit"
     },
     {
@@ -84,7 +85,7 @@ const Notes = () => {
       // author: "Shaista Sultana",
       date: "2025-02-10",
       readTime: "28 min",
-      downloads: 134,
+      // downloads: 134,
       driveLink: "https://docs.google.com/document1/d/1Linux_Admin_Notes"
     },
     {
@@ -96,7 +97,7 @@ const Notes = () => {
       // author: "Shaista Sultana",
       date: "2025-02-15",
       readTime: "35 min",
-      downloads: 98,
+      // downloads: 98,
       driveLink: "https://docs.google.com/document1/d/1AWS_Cloud_Notes"
     }
   ];
@@ -115,7 +116,9 @@ const Notes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <>
+      <PageTitle title="Study Notes" />
+      <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -170,10 +173,10 @@ const Notes = () => {
                   <span className="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
                     {note.category}
                   </span>
-                  <div className="flex items-center text-gray-500 text-sm">
+                  {/* <div className="flex items-center text-gray-500 text-sm">
                     <Download className="w-4 h-4 mr-1" />
                     {note.downloads}
-                  </div>
+                  </div> */}
                 </div>
                 
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -201,13 +204,14 @@ const Notes = () => {
                     {note.readTime}
                   </div>
                   
-                  <button 
+                  <ProtectedButton 
                     onClick={() => handleViewNotes(note.driveLink)}
+                    courseName={note.category}
                     className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     View Notes
-                  </button>
+                  </ProtectedButton>
                 </div>
               </div>
             </div>
@@ -223,6 +227,7 @@ const Notes = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

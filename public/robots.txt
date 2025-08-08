@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
+# Allow important pages
+Allow: /courses/
+Allow: /blog/
+Allow: /about/
+Allow: /contact/
+
+# Sitemap location
+Sitemap: https://kodezacademy.com/sitemap.xml
+
+# Crawl delay to be respectful to the server
+Crawl-delay: 1
+
+# Additional sitemaps
+Sitemap: https://kodezacademy.kesug.com/sitemap-blog.xml
+Sitemap: https://kodezacademy.kesug.com/sitemap-courses.xml 

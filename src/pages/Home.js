@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PageTitle from '../components/PageTitle';
 import { Link } from 'react-router-dom';
 import { 
   Play, 
@@ -18,13 +19,47 @@ import {
   Database,
   Server,
   Target,
-  FileText
+  FileText,
+  Download
 } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
+import EnhancedSEO from '../components/EnhancedSEO';
 import image from './image.png';
 
 const Home = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+
+  // PWA Install functionality
+  useEffect(() => {
+    // Listen for the beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    });
+
+    // Listen for app installed
+    window.addEventListener('appinstalled', () => {
+      setShowInstallButton(false);
+      console.log('PWA was installed');
+    });
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+      setDeferredPrompt(null);
+      setShowInstallButton(false);
+    }
+  };
 
   const features = [
     {
@@ -240,25 +275,61 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <>
+      <PageTitle title="Home" />
+      <EnhancedSEO 
+        title="KodeZ Academy - Live Online Coding Classes for Students 12-21"
+        description="Join KodeZ Academy for live interactive coding classes. Learn Web Development, MERN Stack, AI/ML, and Digital Marketing from expert instructors. Global community of students aged 12-21."
+        keywords={['online coding classes', 'live programming courses', 'web development', 'MERN stack', 'AI machine learning', 'digital marketing', 'coding for kids', 'programming education']}
+        type="website"
+        breadcrumbs={[
+          { name: 'Home', url: '/' }
+        ]}
+      />
+      <div className="min-h-screen">
+        {/* Mobile Download App Button - Below Navbar */}
+        {showInstallButton && (
+          <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  {/* <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                    <BookOpen className="w-6 h-6 text-white" />
+                  </div> */}
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">KodeZ Academy</p>
+                    <p className="text-xs text-gray-600">Learn coding live</p>
+                  </div>
+                </div>
+                <button
+                  onClick={handleInstallClick}
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  <Download className="w-4 h-4 inline mr-1" />
+                  Get App
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Hero Section */}
+      <section className={`pb-8 bg-gradient-to-br from-primary-50 via-white to-secondary-50 ${showInstallButton ? 'pt-32 md:pt-20' : 'pt-20'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <div className="inline-flex items-center space-x-2 bg-accent-100 text-accent-700 px-4 py-2 rounded-full text-sm font-medium">
+                {/* <div className="inline-flex items-center space-x-2 bg-accent-100 text-accent-700 px-4 py-2 rounded-full text-sm font-medium">
                   <Globe className="w-4 h-4" />
                   <span>Join 500+ Students from 25+ Countries</span>
-                </div>
-                <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+                </div> */}
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
                   Learn with
-                  <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"> GenZ</span>
+                  <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"> KodeZ Academy</span>
                   <br />
-                  <span className="text-3xl md:text-5xl">Live Classes</span>
                 </h1>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Ignite your curiosity and unlock your potential! Dive into live, interactive,engaging classes designed just for young minds aged 12-21. Build real skills in MERN Stack Development, Web Development, AI/ML, Python, Digital Marketing, and more.
+                <p className="text-xl text-gray-600 leading-relaxed ">
+                  Empowering learners with knowledge, Education, Skills, Upliftment & Growth. Dive into live, interactive, engaging classes designed just for young minds aged 12-21. Build real skills in MERN Stack Development, Web Development, AI/ML, Python, Digital Marketing, and more.
                 </p>
               </div>
 
@@ -311,7 +382,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose GenZ Learn?
+              Why Choose KodeZ Academy?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Designed specifically for young learners aged 12-21 with a focus on interactive, engaging, and practical learning.
@@ -401,7 +472,7 @@ const Home = () => {
                   
                   <div className="bg-accent-50 rounded-lg p-3 mb-4">
                     <div className="text-sm font-medium text-accent-800 mb-1">Next Batch: {course.nextBatch}</div>
-                    <div className="text-xs text-accent-600">Schedule: {course.schedule}</div>
+                    {/* <div className="text-xs text-accent-600">Schedule: {course.schedule}</div> */}
                   </div>
                 </div>
 
@@ -572,7 +643,8 @@ const Home = () => {
         onClose={() => setIsFormOpen(false)}
         isDemo={true}
       />
-    </div>
+      </div>
+    </>
   );
 };
 

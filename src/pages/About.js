@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PageTitle from '../components/PageTitle';
 import { 
   Users, 
   Globe, 
@@ -6,7 +7,6 @@ import {
   Award, 
   BookOpen, 
   Video, 
-  Clock, 
   CheckCircle,
   Star,
   MessageCircle,
@@ -14,6 +14,7 @@ import {
   Play
 } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
+import EnhancedSEO from '../components/EnhancedSEO';
 import { Link } from 'react-router-dom';
 
 const About = () => {
@@ -49,44 +50,13 @@ const About = () => {
     }
   ];
 
-  const team = [
-    {
-      name: "Rahul Sharma",
-      role: "Founder & Lead Instructor",
-      expertise: "Web Development, Full Stack",
-      experience: "5+ years",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-    },
-    {
-      name: "Dr. Priya Patel",
-      role: "AI/ML Specialist",
-      expertise: "Machine Learning, Data Science",
-      experience: "8+ years",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
-    },
-    {
-      name: "Aisha Khan",
-      role: "Digital Marketing Expert",
-      expertise: "Social Media, SEO, Content",
-      experience: "6+ years",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
-    },
-    {
-      name: "Vikram Singh",
-      role: "Python & Programming",
-      expertise: "Python, Game Development",
-      experience: "4+ years",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-    }
-  ];
-
   const testimonials = [
     {
       name: "Priya Sharma",
       age: "16",
       country: "India",
       course: "Web Development",
-      text: "GenZ Learn has been amazing! The live classes are so interactive and I've made friends from different countries.",
+              text: "KodeZ Academy has been amazing! The live classes are so interactive and I've made friends from different countries.",
       rating: 5
     },
     {
@@ -98,17 +68,37 @@ const About = () => {
       rating: 5
     },
     {
-      name: "Sarah Ahmed",
-      age: "14",
+      name: "Fatima Al-Zahra",
+      age: "15",
       country: "UAE",
       course: "Digital Marketing",
-      text: "I love how the classes are designed for our age group. Learning has never been this fun and engaging!",
+      text: "The projects are so practical and I love how we get to work on real-world scenarios.",
+      rating: 5
+    },
+    {
+      name: "Rahul Kumar",
+      age: "17",
+      country: "India",
+      course: "Python Programming",
+      text: "Great community and support system. The instructors are always available to help.",
       rating: 5
     }
   ];
 
   return (
-    <div className="min-h-screen pt-16">
+    <>
+      <PageTitle title="About Us" />
+      <EnhancedSEO 
+        title="About KodeZ Academy - Global Online Coding Education for Students 12-21"
+        description="Learn about KodeZ Academy's mission to provide quality online coding education to students aged 12-21 worldwide. Expert instructors, interactive learning, and global community."
+        keywords={['about KodeZ Academy', 'online coding education', 'global learning community', 'expert programming instructors', 'interactive coding classes', 'student-focused education']}
+        type="website"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'About', url: '/about' }
+        ]}
+      />
+      <div className="min-h-screen pt-16">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -122,7 +112,7 @@ const About = () => {
                   <span className="text-3xl md:text-4xl">Through Live Learning</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  At GenzLearner, we believe every young person deserves access to quality education. 
+                  At KodeZ Academy, we believe every young person deserves access to quality education. 
                   Our interactive live classes connect students aged 12-21 from around the world, 
                   creating a global community of learners.
                 </p>
@@ -165,12 +155,9 @@ const About = () => {
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-accent-600" />
-                      <span className="text-gray-700">Age-appropriate learning (12-21)</span>
+                      <span className="text-gray-700">Empowering learners aged 12-21 with tailored education</span>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-accent-600" />
-                      <span className="text-gray-700">International student community</span>
-                    </div>
+                   
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-accent-600" />
                       <span className="text-gray-700">Expert instructors</span>
@@ -302,14 +289,14 @@ const About = () => {
             Join Our Global Learning Community
           </h2>
           <p className="text-xl text-primary-100 mb-8">
-            Start your learning journey with GenzLearner. Book your free demo class today!
+            Start your learning journey with KodeZ Academy. Book your free demo class today!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => setIsFormOpen(true)}
               className="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
             >
-              <Calendar className="mr-2 h-5 w-5" />
+              <Calendar className="mr-3 h-5 w-5" />
               Book Free Demo Class
             </button>
             <Link
@@ -329,7 +316,8 @@ const About = () => {
         onClose={() => setIsFormOpen(false)}
         isDemo={true}
       />
-    </div>
+      </div>
+    </>
   );
 };
 

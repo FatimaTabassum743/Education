@@ -41,11 +41,11 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { name: 'Facebook', icon: <Facebook className="w-5 h-5" />, url: '#' },
-    { name: 'Twitter', icon: <Twitter className="w-5 h-5" />, url: '#' },
-    { name: 'Instagram', icon: <Instagram className="w-5 h-5" />, url: '#' },
-    { name: 'LinkedIn', icon: <Linkedin className="w-5 h-5" />, url: '#' },
-    { name: 'YouTube', icon: <Youtube className="w-5 h-5" />, url: '#' }
+    // { name: 'Facebook', icon: <Facebook className="w-5 h-5" />, url: '#' },
+    // { name: 'Twitter', icon: <Twitter className="w-5 h-5" />, url: '#' },
+    { name: 'Instagram', icon: <Instagram className="w-5 h-5" />, url: 'https://www.instagram.com/kodezacademy/' },
+    { name: 'LinkedIn', icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/company/kodez-academy' },
+    { name: 'YouTube', icon: <Youtube className="w-5 h-5" />, url: 'https://www.youtube.com/channel/UCVGQSz5NQE2UhZF_EOhElZA' }
   ];
 
   return (
@@ -60,7 +60,7 @@ const Footer = () => {
               </div>
               <div>
                 <h3 className="text-xl font-bold bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
-                  GenzLearner
+                  KodeZ Academy
                 </h3>
                 <p className="text-xs text-gray-400 -mt-1">Live Classes • Global Community</p>
               </div>
@@ -162,7 +162,7 @@ const Footer = () => {
               <Mail className="w-5 h-5 text-primary-400" />
               <div>
                 <div className="text-sm font-semibold">Email</div>
-                <div className="text-sm text-gray-400">hello@genzlearner.com</div>
+                <div className="text-sm text-gray-400">kodezacademy@gmail.com</div>
               </div>
             </div>
             <div className="flex items-center space-x-3">
@@ -176,7 +176,7 @@ const Footer = () => {
               <Clock className="w-5 h-5 text-primary-400" />
               <div>
                 <div className="text-sm font-semibold">Live Classes</div>
-                {/* <div className="text-sm text-gray-400">Mon-Sat, 10 AM - 9 PM IST</div> */}
+                <div className="text-sm text-gray-400">10 AM - 10PM IST</div>
               </div>
             </div>
           </div>
@@ -186,7 +186,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-gray-400">
-              © {currentYear} GenZ Learner. All rights reserved.
+              © {currentYear} KodeZ Academy. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm text-gray-400">
               <Link to="/contact" className="hover:text-primary-400 transition-colors">

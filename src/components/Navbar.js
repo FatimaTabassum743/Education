@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, Users, BookOpen } from 'lucide-react';
+import { Menu, X, Globe, Users, BookOpen, LogIn, LogOut, User, ChevronDown, Download } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import LoginModal from './LoginModal';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,15 +22,58 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // PWA Install functionality
+  useEffect(() => {
+    // Listen for the beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    });
+
+    // Listen for app installed
+    window.addEventListener('appinstalled', () => {
+      setShowInstallButton(false);
+      console.log('PWA was installed');
+    });
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showProfileDropdown && !event.target.closest('.profile-dropdown')) {
+        setShowProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showProfileDropdown]);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+      setDeferredPrompt(null);
+      setShowInstallButton(false);
+    }
+  };
+
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Courses', path: '/courses' },
     { name: 'Notes', path: '/notes' },
     { name: 'Tasks', path: '/tasks' },
-    { name: 'Assessments', path: '/assessments' },
-    { name: 'Assign Projects', path: '/assign-projects' }, // Added new section
+    // { name: 'Assessments', path: '/assessments' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Blogs', path: '/blog' },
     { name: 'About Us', path: '/about' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Contact Us', path: '/contact' }
   ];
 
   return (
@@ -39,14 +89,14 @@ const Navbar = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-                GenzLearner
+                KodeZ Academy
               </h1>
               <p className="text-xs text-gray-500 -mt-1">Live Classes • Global Community</p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -65,14 +115,76 @@ const Navbar = () => {
           
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button and Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/contact"
-              className="btn-primary text-sm"
-            >
-              Start Learning
-            </Link>
+            {/* Download App Button */}
+            {showInstallButton && (
+              <button
+                onClick={handleInstallClick}
+                className="group relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-400 to-blue-400 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                style={{
+                  background: 'linear-gradient(135deg, #a855f7 0%, #3b82f6 100%)',
+                  boxShadow: '0 4px 15px rgba(139, 92, 246, 0.3)'
+                }}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Get App
+              </button>
+            )}
+            
+            {/* Auth Button */}
+            {user ? (
+              <div className="relative profile-dropdown">
+                <button
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-600 transition-colors duration-200 rounded-lg hover:bg-gray-50"
+                >
+                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                    {user.email.charAt(0).toUpperCase()}
+                  </div>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showProfileDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Profile Dropdown */}
+                {showProfileDropdown && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <div className="flex items-center space-x-3">
+                        {/* <div className="w-10 p-3 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                          {user.email.charAt(0).toUpperCase()}
+                        </div> */}
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">{user.email}</p>
+                          <p className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1">
+                            {user.course}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="py-1">
+                      <button
+                        onClick={() => {
+                          logout();
+                          setShowProfileDropdown(false);
+                        }}
+                        className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Login</span>
+              </button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -90,6 +202,52 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+              {/* Mobile Auth Section - Top */}
+              {user ? (
+                <div className="px-3 py-3 mb-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                        {user.email.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">{user.email}</p>
+                        <p className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1">
+                          {user.course}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsOpen(false);
+                    }}
+                    className="w-full flex items-center justify-center space-x-2 px-3 py-2 text-sm text-gray-700 hover:text-red-600 transition-colors duration-200 bg-white rounded-lg border border-gray-200"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="px-3 py-3 mb-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm font-medium text-blue-900 mb-2">Student Login</p>
+                  <button
+                    onClick={() => {
+                      setShowLoginModal(true);
+                      setIsOpen(false);
+                    }}
+                    className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    <span>Login as Student</span>
+                  </button>
+                </div>
+              )}
+
+
+              
+              {/* Navigation Items */}
               {navItems.map((item) => (
                 <Link
                   key={item.name}
@@ -122,6 +280,12 @@ const Navbar = () => {
           </div>
         )}
       </div>
+      
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
     </nav>
   );
 };
