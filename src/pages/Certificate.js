@@ -11,6 +11,7 @@ import {
   CheckCircle,
   ExternalLink
 } from 'lucide-react';
+import signature from '../signature.png';
 import EnhancedSEO from '../components/EnhancedSEO';
 import { Link } from 'react-router-dom';
 import jsPDF from 'jspdf';
@@ -73,7 +74,7 @@ const Certificate = () => {
         courseName: randomCourse,
         completionDate: completionDate,
         certificateId: certificateId,
-        instructor: "Fatima Tabassum",
+        // instructor: "Fatima Tabassum",
         grade: "A+",
         duration: "8 weeks",
         totalHours: "48 hours"
@@ -193,7 +194,7 @@ const Certificate = () => {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Course Completion Certificate
+              Course Completion Sample Certificate
             </h1>
             <p className="text-lg text-gray-600">
               Congratulations on completing your course! Your certificate is ready.
@@ -226,13 +227,20 @@ const Certificate = () => {
                 {certificateData?.courseName}
               </h4>
               
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center justify-center mb-2">
                     <Calendar className="w-5 h-5 text-primary-600 mr-2" />
                     <span className="font-semibold text-gray-900">Completion Date</span>
                   </div>
                   <p className="text-gray-600">{certificateData?.completionDate}</p>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <BookOpen className="w-5 h-5 text-blue-600 mr-2" />
+                    <span className="font-semibold text-gray-900">Course Duration</span>
+                  </div>
+                  <p className="text-gray-600">{certificateData?.duration}</p>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center justify-center mb-2">
@@ -250,12 +258,18 @@ const Certificate = () => {
             {/* Signature Section */}
             <div className="flex justify-between items-end border-t-2 border-gray-200 pt-6">
               <div className="text-center">
-                <div className="w-32 h-16 border-b-2 border-gray-400 mb-2"></div>
+                {/* <div className="w-32 h-16 border-b-2 border-gray-400 mb-2"></div>
                 <p className="text-sm font-semibold text-gray-700">Course Instructor</p>
-                <p className="text-xs text-gray-600">{certificateData?.instructor}</p>
+                <p className="text-xs text-gray-600">{certificateData?.instructor}</p> */}
               </div>
               <div className="text-center">
-                <div className="w-32 h-16 border-b-2 border-gray-400 mb-2"></div>
+                <div className="w-32 h-16 mb-2 flex items-center justify-center">
+                  <img 
+                    src={signature} 
+                    alt="Director Signature" 
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
                 <p className="text-sm font-semibold text-gray-700">Director</p>
                 <p className="text-xs text-gray-600">KodeZ Academy</p>
               </div>
@@ -264,7 +278,7 @@ const Certificate = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <button
+            {/* <button
               onClick={handleDownload}
               disabled={isDownloading}
               className="flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -280,27 +294,19 @@ const Certificate = () => {
                   Download PDF
                 </>
               )}
-            </button>
+            </button> */}
         
-            <button
+            {/* <button
               onClick={handleShare}
               className="flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200"
             >
               <Share2 className="w-4 h-4 mr-2" />
               Share Certificate
-            </button>
+            </button> */}
           </div>
 
           {/* Generate New Certificate Button */}
-          <div className="text-center">
-            <button
-              onClick={generateCertificate}
-              className="inline-flex items-center px-6 py-3 bg-secondary-600 text-white font-semibold rounded-lg hover:bg-secondary-700 transition-colors duration-200"
-            >
-              <Award className="w-4 h-4 mr-2" />
-              Generate New Certificate
-            </button>
-          </div>
+       
 
        
 

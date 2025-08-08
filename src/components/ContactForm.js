@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Send, X, ChevronDown } from 'lucide-react';
 import emailjs from 'emailjs-com';
-import localStorageService from '../services/localStorageService';
+
 
 const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) => {
   const [formData, setFormData] = useState({
@@ -47,7 +47,7 @@ const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) =>
     setSubmitStatus(null);
 
     try {
-      // Send email using EmailJS FIRST (prioritize email over localStorage)
+      // Send email using EmailJS
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
@@ -68,21 +68,7 @@ const ContactForm = ({ isOpen, onClose, courseTitle = null, isDemo = false }) =>
         EMAILJS_USER_ID
       );
       
-      // Only after successful email, try to save to localStorage (optional)
-      try {
-        const submissionData = {
-          ...formData,
-          id: Date.now(),
-          timestamp: new Date().toISOString(),
-          status: 'new',
-          type: isDemo ? 'demo' : 'inquiry'
-        };
 
-        localStorageService.addFormData(submissionData);
-      } catch (localStorageError) {
-        console.warn('LocalStorage save failed, but email was sent successfully:', localStorageError);
-        // Don't fail the form submission if localStorage fails
-      }
       
       setSubmitStatus('success');
       setFormData({

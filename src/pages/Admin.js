@@ -36,7 +36,7 @@ import {
   StarHalf, 
   StarOff 
 } from 'lucide-react';
-import localStorageService from '../services/localStorageService';
+
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -112,23 +112,13 @@ const Admin = () => {
   }, [filterAndSortData]);
 
   const loadTaskCompletions = () => {
-    try {
-      const completions = JSON.parse(localStorage.getItem('taskCompletions') || '[]');
-      setTaskCompletions(completions);
-    } catch (error) {
-      console.error('Error loading task completions:', error);
-      setTaskCompletions([]);
-    }
+    // No longer using localStorage - data will be empty
+    setTaskCompletions([]);
   };
 
   const loadAssessmentSubmissions = () => {
-    try {
-      const submissions = JSON.parse(localStorage.getItem('assessmentSubmissions') || '[]');
-      setAssessmentSubmissions(submissions);
-    } catch (error) {
-      console.error('Error loading assessment submissions:', error);
-      setAssessmentSubmissions([]);
-    }
+    // No longer using localStorage - data will be empty
+    setAssessmentSubmissions([]);
   };
 
   const handleLogin = (e) => {
@@ -151,7 +141,7 @@ const Admin = () => {
     setFormData([]);
     setFilteredData([]);
     setTaskCompletions([]);
-    setSearchTerm('');
+        setSearchTerm('');
     setStatusFilter('all');
     setActiveTab('inquiries');
     // Clear authentication state
@@ -159,32 +149,23 @@ const Admin = () => {
   };
 
   const loadFormData = async () => {
-    try {
-      const data = await localStorageService.getFormData();
-      const safeData = Array.isArray(data) ? data : [];
-      setFormData(safeData);
-    } catch (error) {
-      console.error('Error loading form data:', error);
-      setFormData([]);
-    }
+    // No longer using localStorage service - data will be empty
+    setFormData([]);
   };
 
   const updateStatus = (id, newStatus) => {
-    localStorageService.updateStatus(id, newStatus);
-    loadFormData();
+    // No longer using localStorage service
+    console.log('Status update not available - localStorage service removed');
   };
 
   const deleteEntry = (id) => {
-    if (window.confirm('Are you sure you want to delete this entry?')) {
-      localStorageService.clearData(id);
-      loadFormData();
-    }
+    // No longer using localStorage service
+    console.log('Delete not available - localStorage service removed');
   };
 
   const deleteTaskCompletion = (id) => {
     if (window.confirm('Are you sure you want to delete this task completion?')) {
       const updatedCompletions = taskCompletions.filter(completion => completion.id !== id);
-      localStorage.setItem('taskCompletions', JSON.stringify(updatedCompletions));
       setTaskCompletions(updatedCompletions);
     }
   };
@@ -192,13 +173,12 @@ const Admin = () => {
   const deleteAssessmentSubmission = (id) => {
     if (window.confirm('Are you sure you want to delete this assessment submission?')) {
       const updatedSubmissions = assessmentSubmissions.filter(submission => submission.id !== id);
-      localStorage.setItem('assessmentSubmissions', JSON.stringify(updatedSubmissions));
       setAssessmentSubmissions(updatedSubmissions);
     }
   };
 
   const exportData = () => {
-    localStorageService.exportToCSV(filteredData);
+    console.log('Export not available - localStorage service removed');
   };
 
   const exportTaskCompletions = () => {

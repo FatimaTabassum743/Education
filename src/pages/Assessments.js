@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PageTitle from '../components/PageTitle';
 import { 
   FileText, 
@@ -30,6 +30,10 @@ const Assessments = () => {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
   const [timerActive, setTimerActive] = useState(false);
 
+  // Refs for input focus management
+  const nameInputRef = useRef(null);
+  const emailInputRef = useRef(null);
+
   // EmailJS configuration
   const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_lzv0n76';
   const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_hywc48o';
@@ -40,19 +44,42 @@ const Assessments = () => {
     submitAssessment();
   }, []);
 
-  // Timer effect
+  // Memoized input handlers to prevent re-renders
+  const handleNameChange = useCallback((e) => {
+    setStudentName(e.target.value);
+  }, []);
+
+  const handleEmailChange = useCallback((e) => {
+    setStudentEmail(e.target.value);
+  }, []);
+
+  // Timer effect - optimized to prevent unnecessary re-renders
   useEffect(() => {
     let interval = null;
     if (timerActive && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            // Auto-submit when time runs out
+            setTimeout(() => handleTimeUp(), 0);
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
-    } else if (timeLeft === 0 && timerActive) {
-      // Auto-submit when time runs out
-      handleTimeUp();
     }
     return () => clearInterval(interval);
-  }, [timerActive, timeLeft, handleTimeUp]);
+  }, [timerActive, handleTimeUp]);
+
+  // Focus first input when submission modal opens
+  useEffect(() => {
+    if (showSubmissionModal && nameInputRef.current) {
+      // Small delay to ensure modal is fully rendered
+      setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 100);
+    }
+  }, [showSubmissionModal]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -455,20 +482,7 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
         EMAILJS_USER_ID
       );
 
-      // Only after successful email, try to save to localStorage (optional)
-      try {
-        // Get existing assessment submissions from localStorage
-        const existingSubmissions = JSON.parse(localStorage.getItem('assessmentSubmissions') || '[]');
-        
-        // Add new submission
-        existingSubmissions.push(assessmentData);
-        
-        // Save back to localStorage
-        localStorage.setItem('assessmentSubmissions', JSON.stringify(existingSubmissions));
-      } catch (localStorageError) {
-        console.warn('LocalStorage save failed, but email was sent successfully:', localStorageError);
-        // Don't fail the submission if localStorage fails
-      }
+
 
       // Show success popup and navigate to assignment main page
       setShowSubmissionModal(false);
@@ -488,14 +502,14 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
     }
   };
 
-  const handleSkipEmail = () => {
+  const handleSkipEmail = useCallback(() => {
     setShowSubmissionModal(false);
     setStudentName('');
     setStudentEmail('');
     setIsSubmitting(false);
     setTestResults(pendingResults);
     setPendingResults(null);
-  };
+  }, [pendingResults]);
 
   const resetAssessment = () => {
     setSelectedAssessment(null);
@@ -521,144 +535,162 @@ ${assessmentData.questionsAndAnswers.map((qa, index) =>
     }
   };
 
-  // Confirmation Modal Component
-  const ConfirmationModal = () => {
+  // Confirmation Modal Component - memoized to prevent re-renders
+  const ConfirmationModal = useCallback(() => {
     if (!showConfirmationModal) return null;
     
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
-              <AlertTriangle className="inline-block w-5 h-5 mr-2 text-orange-600" />
-              Confirm Submission
-            </h3>
-            <button
-              onClick={() => setShowConfirmationModal(false)}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-          <div className="space-y-4">
-            <div className="bg-orange-50 p-3 rounded-lg">
-              <p className="text-sm text-orange-800">
-                <strong>Are you sure you want to submit your assessment?</strong>
-              </p>
-              <p className="text-sm text-orange-700 mt-2">
-                This action cannot be undone. Your answers will be submitted and you'll be redirected to the assignment main page.
-              </p>
+      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">
+                <AlertTriangle className="inline-block w-5 h-5 mr-2 text-orange-600" />
+                Confirm Submission
+              </h3>
+              <button
+                onClick={() => setShowConfirmationModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <p className="text-sm text-gray-700">
-                <strong>Assessment Summary:</strong>
-              </p>
-              <ul className="text-sm text-gray-600 mt-1 space-y-1">
-                <li>• Assessment: {selectedAssessment?.title}</li>
-                <li>• Questions Answered: {Object.keys(answers).length}/{selectedAssessment?.questionsList.length}</li>
-                <li>• Time Remaining: {formatTime(timeLeft)}</li>
-              </ul>
+            
+            <div className="space-y-4">
+              <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                <p className="text-sm text-orange-800 font-medium">
+                  Are you sure you want to submit your assessment?
+                </p>
+                <p className="text-sm text-orange-700 mt-2">
+                  This action cannot be undone. Your answers will be submitted and you'll be redirected to the assignment main page.
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <p className="text-sm text-gray-700 font-medium mb-2">
+                  Assessment Summary:
+                </p>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• Assessment: {selectedAssessment?.title}</li>
+                  <li>• Questions Answered: {Object.keys(answers).length}/{selectedAssessment?.questionsList.length}</li>
+                  <li>• Time Remaining: {formatTime(timeLeft)}</li>
+                </ul>
+              </div>
             </div>
-          </div>
-          <div className="flex space-x-3 mt-6">
-            <button
-              onClick={() => setShowConfirmationModal(false)}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                setShowConfirmationModal(false);
-                setShowSubmissionModal(true);
-              }}
-              className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors duration-200"
-            >
-              Confirm Submit
-            </button>
+            
+            <div className="flex space-x-3 mt-6">
+              <button
+                onClick={() => setShowConfirmationModal(false)}
+                className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowConfirmationModal(false);
+                  setShowSubmissionModal(true);
+                }}
+                className="flex-1 px-4 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors duration-200"
+              >
+                Confirm Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>
     );
-  };
+  }, [showConfirmationModal, selectedAssessment, answers, timeLeft, formatTime]);
 
-  // Modal Component
-  const SubmissionModal = () => {
+  // Modal Component - memoized to prevent re-renders
+  const SubmissionModal = useCallback(() => {
     if (!showSubmissionModal) return null;
     
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
-              <Save className="inline-block w-5 h-5 mr-2 text-blue-600" />
-              To Get Your Results
-            </h3>
-            <button
-              onClick={handleSkipEmail}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Your Name *
-              </label>
-              <input
-                type="text"
-                id="student-name"
-                value={studentName}
-                onChange={(e) => setStudentName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your full name"
-              />
+      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">
+                <Save className="inline-block w-5 h-5 mr-2 text-blue-600" />
+                To Get Your Results
+              </h3>
+              <button
+                onClick={handleSkipEmail}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Your Email *
-              </label>
-              <input
-                type="email"
-                id="student-email"
-                value={studentEmail}
-                onChange={(e) => setStudentEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your email address"
-              />
-            </div>
-        
-          </div>
-          <div className="flex space-x-3 mt-6">
-            <button
-              onClick={handleSkipEmail}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-            >
-              Skip
-            </button>
-            <button
-              onClick={handleSubmitResults}
-              disabled={isSubmitting}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-            >
-              {isSubmitting ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Submitting...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" />
-                  Submit Results
-                </>
-              )}
-            </button>
+            
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmitResults(); }} className="space-y-4">
+              <div>
+                <label htmlFor="student-name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Your Name *
+                </label>
+                <input
+                  ref={nameInputRef}
+                  type="text"
+                  id="student-name"
+                  name="studentName"
+                  value={studentName}
+                  onChange={handleNameChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter your full name"
+                  autoComplete="name"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="student-email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Your Email *
+                </label>
+                <input
+                  ref={emailInputRef}
+                  type="email"
+                  id="student-email"
+                  name="studentEmail"
+                  value={studentEmail}
+                  onChange={handleEmailChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter your email address"
+                  autoComplete="email"
+                />
+              </div>
+              
+              <div className="flex space-x-3 pt-4">
+                <button
+                  type="button"
+                  onClick={handleSkipEmail}
+                  className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Skip
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4 mr-2" />
+                      Submit Results
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     );
-  };
+  }, [showSubmissionModal, studentName, studentEmail, isSubmitting, handleNameChange, handleEmailChange, handleSubmitResults, handleSkipEmail]);
 
   if (isTestActive && selectedAssessment) {
     const currentQ = selectedAssessment.questionsList[currentQuestion];

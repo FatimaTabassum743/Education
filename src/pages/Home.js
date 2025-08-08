@@ -288,33 +288,10 @@ const Home = () => {
       />
       <div className="min-h-screen">
         {/* Mobile Download App Button - Below Navbar */}
-        {showInstallButton && (
-          <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
-            <div className="max-w-7xl mx-auto px-4 py-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  {/* <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                    <BookOpen className="w-6 h-6 text-white" />
-                  </div> */}
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900">KodeZ Academy</p>
-                    <p className="text-xs text-gray-600">Learn coding live</p>
-                  </div>
-                </div>
-                <button
-                  onClick={handleInstallClick}
-                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                >
-                  <Download className="w-4 h-4 inline mr-1" />
-                  Get App
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+  
         
         {/* Hero Section */}
-      <section className={`pb-8 bg-gradient-to-br from-primary-50 via-white to-secondary-50 ${showInstallButton ? 'pt-32 md:pt-20' : 'pt-20'}`}>
+      <section className={`pb-8 bg-gradient-to-br from-primary-50 via-white to-secondary-50 ${showInstallButton ? 'pt-20 md:pt-8' : 'pt-10 md:pt-8'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -324,7 +301,7 @@ const Home = () => {
                   <span>Join 500+ Students from 25+ Countries</span>
                 </div> */}
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                  Learn with
+                  Learn With
                   <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"> KodeZ Academy</span>
                   <br />
                 </h1>

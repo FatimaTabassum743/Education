@@ -150,32 +150,7 @@ Submitted at: ${new Date().toLocaleString()}`,
         EMAILJS_USER_ID
       );
 
-      // Only after successful email, try to save to localStorage (optional)
-      try {
-        const projectSubmission = {
-          id: Date.now(),
-          projectId: selectedProject.id,
-          projectTitle: selectedProject.title,
-          studentName: submissionData.studentName,
-          projectName: submissionData.projectName,
-          githubCodeLink: submissionData.githubCodeLink,
-          githubHostedLink: submissionData.githubHostedLink,
-          submittedAt: new Date().toISOString(),
-          points: selectedProject.points
-        };
 
-        // Get existing project submissions from localStorage
-        const existingSubmissions = JSON.parse(localStorage.getItem('projectSubmissions') || '[]');
-        
-        // Add new submission
-        existingSubmissions.push(projectSubmission);
-        
-        // Save back to localStorage
-        localStorage.setItem('projectSubmissions', JSON.stringify(existingSubmissions));
-      } catch (localStorageError) {
-        console.warn('LocalStorage save failed, but email was sent successfully:', localStorageError);
-        // Don't fail the submission if localStorage fails
-      }
 
       setSubmitStatus('success');
       setSubmissionData({
@@ -264,7 +239,6 @@ Submitted at: ${new Date().toLocaleString()}`,
           {/* Header */}
           <div className="text-center mb-8 mt-10">
             <h1 className="text-4xl font-bold text-gray-900 mb-4 mt-10">
-              <Code className="inline-block w-8 h-8 mr-3 text-blue-600" />
               Assign Projects
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">

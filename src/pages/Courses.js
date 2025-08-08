@@ -291,7 +291,7 @@ Thank you!`;
           { name: 'Courses', url: '/courses' }
         ]}
       />
-      <div className="min-h-screen pt-16">
+      <div className="min-h-screen pt-4">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

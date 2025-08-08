@@ -24,18 +24,54 @@ const Navbar = () => {
 
   // PWA Install functionality
   useEffect(() => {
+    // Check if PWA is already installed
+    const isPWAInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                           window.navigator.standalone === true;
+    
+    if (isPWAInstalled) {
+      console.log('PWA is already installed');
+      setShowInstallButton(false);
+      return;
+    }
+
     // Listen for the beforeinstallprompt event
-    window.addEventListener('beforeinstallprompt', (e) => {
+    const handleBeforeInstallPrompt = (e) => {
+      console.log('beforeinstallprompt event fired');
       e.preventDefault();
       setDeferredPrompt(e);
       setShowInstallButton(true);
-    });
+    };
 
     // Listen for app installed
-    window.addEventListener('appinstalled', () => {
-      setShowInstallButton(false);
+    const handleAppInstalled = () => {
       console.log('PWA was installed');
-    });
+      setShowInstallButton(false);
+      setDeferredPrompt(null);
+    };
+
+    // Add event listeners
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    // Debug: Check if service worker is registered
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        console.log('Service Worker registrations:', registrations);
+      });
+    }
+
+    // Debug: Check manifest
+    const manifestLink = document.querySelector('link[rel="manifest"]');
+    if (manifestLink) {
+      console.log('Manifest link found:', manifestLink.href);
+    } else {
+      console.warn('No manifest link found');
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
   }, []);
 
   // Close dropdown when clicking outside

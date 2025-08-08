@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import MobileInstallBanner from './components/MobileInstallBanner';
 import Analytics from './components/Analytics';
 import PerformanceOptimizer from './components/PerformanceOptimizer';
 
@@ -20,6 +21,8 @@ import Blog from './pages/Blog';
 import Certificate from './pages/Certificate';
 
 function App() {
+  const [isBannerActive, setIsBannerActive] = useState(false);
+
   return (
     <AuthProvider>
       <Router>
@@ -35,6 +38,7 @@ function App() {
           />
           <div className="App min-h-screen flex flex-col">
             <Navbar />
+            <MobileInstallBanner onBannerStateChange={setIsBannerActive} />
             <main className="flex-grow">
               <Routes>
                 <Route path="/" element={<Home />} />

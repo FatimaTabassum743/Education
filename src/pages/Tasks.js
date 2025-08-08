@@ -422,20 +422,7 @@ Completed at: ${new Date().toLocaleString()}`,
         EMAILJS_USER_ID
       );
 
-      // Only after successful email, try to save to localStorage (optional)
-      try {
-        // Get existing completions from localStorage
-        const existingCompletions = JSON.parse(localStorage.getItem('taskCompletions') || '[]');
-        
-        // Add new completion
-        const updatedCompletions = [...existingCompletions, completionRecord];
-        
-        // Save to localStorage
-        localStorage.setItem('taskCompletions', JSON.stringify(updatedCompletions));
-      } catch (localStorageError) {
-        console.warn('LocalStorage save failed, but email was sent successfully:', localStorageError);
-        // Don't fail the submission if localStorage fails
-      }
+
 
       // Mark task as completed in state
       if (!completedTasks.includes(selectedTask.id)) {

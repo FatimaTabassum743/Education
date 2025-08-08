@@ -16,16 +16,16 @@ const EnhancedSEO = ({
   courseData = null,
   organizationData = null
 }) => {
+  const baseUrl = 'https://kodezacademy.com';
   const fullTitle = title ? `${title} - KodeZ Academy` : 'KodeZ Academy - Live Classes • Global Community';
   const fullDescription = description || 'Expert insights, tutorials, and strategies to accelerate your learning journey. Join our global community of learners and developers.';
+  const defaultImage = `${baseUrl}/image.png`;
   const fullKeywords = [
     'education', 'programming', 'online learning', 'coding', 'web development', 
     'React.js', 'JavaScript', 'Python', 'career development', 'tech education',
     'coding bootcamp', 'software development', 'programming courses', 'learn to code',
     ...keywords
   ].join(', ');
-
-  const baseUrl = 'https://kodezacademy.com';
   const fullUrl = url ? `${baseUrl}${url}` : window.location.href;
 
   return (
@@ -47,7 +47,9 @@ const EnhancedSEO = ({
       <meta property="og:description" content={fullDescription} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={fullUrl} />
-      {image && <meta property="og:image" content={image} />}
+      <meta property="og:image" content={image || defaultImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content="KodeZ Academy" />
       <meta property="og:locale" content="en_US" />
       
@@ -55,7 +57,7 @@ const EnhancedSEO = ({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={fullDescription} />
-      {image && <meta name="twitter:image" content={image} />}
+      <meta name="twitter:image" content={image || defaultImage} />
       <meta name="twitter:site" content="@kodezacademy" />
       <meta name="twitter:creator" content="@kodezacademy" />
       
@@ -94,7 +96,7 @@ const EnhancedSEO = ({
             "@type": "BlogPosting",
             "headline": title,
             "description": fullDescription,
-            "image": image,
+            "image": image || defaultImage,
             "author": {
               "@type": "Person",
               "name": author || "KodeZ Academy Team"
@@ -156,7 +158,7 @@ const EnhancedSEO = ({
           "description": "Live Classes • Global Community - Expert programming education and online learning platform",
           "url": baseUrl,
           "logo": `${baseUrl}/logo.png`,
-          "image": `${baseUrl}/og-image.png`,
+          "image": `${baseUrl}/image.png`,
           "sameAs": [
             "https://facebook.com/kodezacademy",
             "https://twitter.com/kodezacademy",

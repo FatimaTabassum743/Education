@@ -367,3 +367,22 @@
 .shadow-accent {
   box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04);
 } 
+
+/* Mobile Install Banner - No layout impact */
+.mobile-banner-active {
+  /* No padding changes - banner overlays content */
+}
+
+/* Ensure main content has proper top spacing */
+main {
+  padding-top: 64px; /* Standard navbar height */
+}
+
+/* Mobile banner positioning */
+.mobile-banner {
+  position: fixed;
+  top: 64px; /* Below navbar */
+  left: 0;
+  right: 0;
+  z-index: 40;
+} 
